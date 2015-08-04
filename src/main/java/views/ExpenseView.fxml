@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.ExpenseViewController">
+
+	<children>
+		<AnchorPane layoutX="14.0" layoutY="332.0" prefHeight="50.0" prefWidth="598.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<Button layoutY="12.0" mnemonicParsing="false" onAction="#addExpense" prefHeight="26.0" prefWidth="108.0" text="Add Expense" />
+				<Button layoutX="148.0" layoutY="12.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+			</children>
+		</AnchorPane>
+		<TreeTableView fx:id="expensesTreeView" showRoot="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+			<columns>
+				<TreeTableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+				<TreeTableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description" />
+				<TreeTableColumn fx:id="amountColumn" prefWidth="75.0" text="Amount" />
+				<TreeTableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
+				<TreeTableColumn fx:id="subCategoryColumn" prefWidth="75.0" text="SubCategory" />
+				<TreeTableColumn fx:id="accountColumn" prefWidth="75.0" text="Account" />
+			</columns>
+		</TreeTableView>
+	</children>
+</AnchorPane>

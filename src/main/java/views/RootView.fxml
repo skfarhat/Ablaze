@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+	prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="viewcontrollers.RootViewController">
+	<children>
+		<BorderPane prefHeight="200.0" prefWidth="200.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<center>
+				<TabPane tabClosingPolicy="UNAVAILABLE"
+					BorderPane.alignment="CENTER">
+					<tabs>
+						<Tab text="Expenses">
+							<content>
+								<fx:include fx:id="expenseView" source="ExpenseView.fxml" />
+							</content>
+						</Tab>
+						<Tab text="Accounts">
+							<content>
+								<fx:include fx:id="accountView" source="AccountView.fxml" />
+							</content>
+						</Tab>
+						<Tab text="Statistics">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0" />
+							</content>
+						</Tab>
+					</tabs>
+				</TabPane>
+			</center>
+			<top>
+				<AnchorPane BorderPane.alignment="CENTER">
+					<children>
+						<MenuBar AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<menus>
+								<Menu mnemonicParsing="false" text="File">
+									<items>
+										<MenuItem mnemonicParsing="false" text="Close" />
+									</items>
+								</Menu>
+								<Menu mnemonicParsing="false" text="Edit">
+									<items>
+										<MenuItem mnemonicParsing="false" text="Delete" />
+									</items>
+								</Menu>
+								<Menu mnemonicParsing="false" text="Import">
+									<items>
+										<MenuItem mnemonicParsing="false" onAction="#importCSV"
+											text="Excel (.csv)" />
+									</items>
+								</Menu>
+								<Menu mnemonicParsing="false" text="Tools">
+									<items>
+										<MenuItem mnemonicParsing="false" onAction="#addUser"
+											text="Add User" />
+										<MenuItem mnemonicParsing="false" text="Add Expense" />
+										<MenuItem mnemonicParsing="false" text="Add Transaction" />
+										<MenuItem mnemonicParsing="false" text="Change Password" />
+									</items>
+								</Menu>
+								<Menu mnemonicParsing="false" text="Help">
+									<items>
+										<MenuItem mnemonicParsing="false" text="About" />
+									</items>
+								</Menu>
+							</menus>
+						</MenuBar>
+					</children>
+				</AnchorPane>
+			</top>
+			<left>
+				<AnchorPane BorderPane.alignment="CENTER">
+					<children>
+						<GridPane AnchorPane.bottomAnchor="-0.0"
+							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="300.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+									prefWidth="100.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints maxHeight="409.0" minHeight="0.0"
+									prefHeight="31.0" vgrow="SOMETIMES" />
+								<RowConstraints maxHeight="491.0" minHeight="10.0"
+									prefHeight="48.0" vgrow="SOMETIMES" />
+								<RowConstraints maxHeight="491.0" minHeight="10.0"
+									prefHeight="177.0" vgrow="SOMETIMES" />
+							</rowConstraints>
+							<children>
+								<Button mnemonicParsing="false" onAction="#addCard"
+									prefHeight="26.0" prefWidth="150.0" text="Add Card" />
+								<Button mnemonicParsing="false" prefWidth="150.0"
+									text="Add Transaction" GridPane.rowIndex="1" />
+							</children>
+						</GridPane>
+						<AnchorPane prefHeight="41.0" prefWidth="200.0"
+							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0">
+							<children>
+								<Label fx:id="userLabel" layoutX="14.0" layoutY="13.0"
+									prefHeight="16.0" prefWidth="131.0" text="Sami Farhat">
+									<font>
+										<Font size="14.0" />
+									</font>
+								</Label>
+							</children>
+						</AnchorPane>
+					</children>
+				</AnchorPane>
+			</left>
+			<right>
+				<AnchorPane fx:id="rightPane">
+					<children>
+					</children>
+				</AnchorPane>
+				<!-- <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"> 
+					<children> <Label layoutX="17.0" layoutY="7.0" text="New Expense"> <font> 
+					<Font name="System Bold" size="14.0" /> </font> </Label> <TextField layoutX="12.0" 
+					layoutY="47.0" prefHeight="26.0" prefWidth="165.0" promptText="Title" /> 
+					<TextField layoutX="13.0" layoutY="80.0" prefHeight="26.0" prefWidth="94.0" 
+					promptText="Amount" /> <ChoiceBox layoutX="119.0" layoutY="80.0" prefHeight="26.0" 
+					prefWidth="57.0" /> <ChoiceBox layoutX="13.0" layoutY="135.0" prefWidth="150.0" 
+					/> <ChoiceBox layoutX="13.0" layoutY="191.0" prefWidth="150.0" /> <DatePicker 
+					layoutX="17.0" layoutY="248.0" prefHeight="26.0" prefWidth="109.0" /> <Label 
+					layoutX="17.0" layoutY="224.0" prefWidth="38.0" text="Date" /> <Label layoutX="14.0" 
+					layoutY="116.0" text="Category" /> <Label layoutX="15.0" layoutY="170.0" 
+					text="Sub-Category" /> <ChoiceBox layoutX="13.0" layoutY="311.0" prefWidth="150.0" 
+					/> <Label layoutX="14.0" layoutY="286.0" text="Account" /> <TableView editable="true" 
+					layoutX="10.0" layoutY="357.0" prefHeight="200.0" prefWidth="170.0"> <columns> 
+					<TableColumn prefWidth="150.0" resizable="false" text="Tags" /> </columns> 
+					</TableView> </children> </AnchorPane> -->
+			</right>
+			<bottom>
+				<AnchorPane fx:id="bottomPane" prefHeight="200.0"
+					prefWidth="200.0" BorderPane.alignment="CENTER">
+					<children>
+						<TextFlow prefHeight="200.0" prefWidth="200.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+					</children>
+				</AnchorPane>
+			</bottom>
+		</BorderPane>
+	</children>
+</AnchorPane>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="189.0" prefWidth="261.0"
+	xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="viewcontrollers.popups.NewUserController">
+	<children>
+		<Button mnemonicParsing="false" text="Cancel"
+			AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" onAction="#cancelButtonPressed"/>
+		<Button mnemonicParsing="false" text="Confirm"
+			AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="0.0" onAction="#confirmButtonPressed"/>
+		<Label layoutX="11.0" layoutY="76.0" text="First Name"
+			AnchorPane.topAnchor="40.0" />
+		<TextField fx:id="firstNameTextField" layoutX="87.0"
+			layoutY="71.0" AnchorPane.topAnchor="40.0" />
+		<TextField fx:id="lastNameTextField" layoutX="87.0"
+			layoutY="118.0" AnchorPane.topAnchor="80.0" />
+		<Label layoutX="11.0" layoutY="123.0" text="Last Name"
+			AnchorPane.topAnchor="80.0"  />
+	</children>
+	<padding>
+		<Insets left="10.0" right="10.0" />
+	</padding>
+</AnchorPane>

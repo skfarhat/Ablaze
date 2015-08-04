@@ -1,0 +1,14 @@
+# Notes 
+
+add calendar plugin or something
+add settings pane - includes manage users (change password, delete user..) 
+
+automatic feeds from barclays:  
+http://www.freeagent.com/central/automated-bank-feeds-from-barclays
+
+
+TODO: 
+-----
+* parse legacy accounting
+* add pound sterling to amount 
+* change expense root of treeitems
