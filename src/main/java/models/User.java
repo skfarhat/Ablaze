@@ -1,9 +1,11 @@
 package models;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
+import util.LocalDateConverter;
+import util.LocalDateTimeConverter;
 
 /**
  * 
@@ -37,6 +40,10 @@ public class User {
 	@Column(name="password")
 	private String password; 
 
+	@Column(name = "lastLogin")
+    @Convert(converter = LocalDateTimeConverter.class)
+	private LocalDateTime lastLogin; 
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Account> accounts= new HashSet<Account>(0);
 
@@ -64,6 +71,10 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 	public Integer getId() {

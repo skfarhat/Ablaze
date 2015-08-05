@@ -2,6 +2,7 @@ package viewcontrollers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -85,7 +86,6 @@ public class LoginViewController implements Initializable, Refreshable {
 					}
 				});
 
-		comboBox.setItems(users);
 		refresh();
 	}
 
@@ -102,6 +102,7 @@ public class LoginViewController implements Initializable, Refreshable {
 			usersList.forEach(user -> users.add(user.getFullName()));
 
 			comboBox.setItems(users);
+			comboBox.getSelectionModel().select(0);
 		}
 	}
 
@@ -128,7 +129,11 @@ public class LoginViewController implements Initializable, Refreshable {
 		logger.debug("end of newUserFrame"); 
 	}
 
-	@FXML private void proceedButtonPressed() { 
+	@FXML private void proceedButtonPressed() {
+		
+		/* update last-login time for the user */ 
+		userWriter.updateLastLogin(selectedUser);
+		/* load fxml */ 
 		final String filename = "../views/RootView.fxml"; 
 		FXMLLoader loader = new FXMLLoader(); 
 		loader.setLocation(Launcher.class.getResource(filename));

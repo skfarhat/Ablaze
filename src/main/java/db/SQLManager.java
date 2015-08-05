@@ -1,5 +1,6 @@
 package db;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import models.Account;
@@ -55,14 +56,16 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		}
 	}
 
+	// ============
+	// |   USER   |
+	// ============
 
 	public List<User> getAllUsers() {
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from User");
-
+		Query query = session.createQuery("from User u order by u.lastLogin DESC");
 		List<User> userList = query.list();
 
 		/* commit */ 
@@ -88,7 +91,8 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setPassword(PasswordManager.getHash(password));
-
+		user.setLastLogin(LocalDateTime.now());
+		
 		/* persist */ 
 		session.save(user); 
 
@@ -111,6 +115,17 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		session.getTransaction().commit(); 
 	}
 
+	@Override
+	public void updateLastLogin(User user) { 
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction(); 
+
+		user.setLastLogin(LocalDateTime.now()); 
+		session.update(user);
+		
+		session.getTransaction().commit();
+	}
 
 
 
