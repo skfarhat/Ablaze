@@ -12,15 +12,16 @@ TODO:
 
 ## DONE
 * change expense root of treeitems
+* Log textfield at the bottom 
+* Implement 'last-login' for users and then sort users in login view by latest 'last-login' date. 
+  Have the Login controller select the first item in the list 
 
 ## PENDING
 * clean memos being saved in expenses (no date) 
 * filter expenses to the last month 
 * add pound sterling to amount
-* Log textfield at the bottom 
-* 	Add card -- that is linked to an account.
-	Can save card information (securely) and display on need
-* Implement 'last-login' for users and then sort users in login view by latest 'last-login' date. 
-  Have the Login controller select the first item in the list 
-* 
+* Add card -- that is linked to an account.
+  Can save card information (securely) and display on need
+  
+  
 * parse legacy accounting
