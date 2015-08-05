@@ -9,12 +9,20 @@
 			<param name="ConversionPattern" value="%-5p %c{1} - %m%n" />
 		</layout>
 	</appender>
+	
+	<appender name="gui" class="util.TextAreaAppender" >
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %c{1} - %m%n" />
+		</layout>
+	</appender>
 
  	<logger name="org.hibernate">
 		<level value="error" />
 	</logger>
+	
 	<root>
-		<priority value="trace" />
+		<priority value="trace" /> 
+		<appender-ref ref="gui" /> 
 	</root>
 
 

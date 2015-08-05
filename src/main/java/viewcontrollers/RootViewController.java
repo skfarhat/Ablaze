@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -25,6 +26,7 @@ import models.User;
 
 import org.apache.log4j.Logger;
 
+import util.TextAreaAppender;
 import viewcontrollers.popups.NewUserController;
 import db.SQLManager;
 import exceptions.NullAccountException;
@@ -49,6 +51,8 @@ public class RootViewController implements Initializable, RightPaneSetter {
 	@FXML AnchorPane rightPane; 
 	@FXML AnchorPane bottomPane; 
 
+	@FXML private TextArea logTextArea; 
+	
 	/**
 	 * 
 	 */
@@ -61,6 +65,8 @@ public class RootViewController implements Initializable, RightPaneSetter {
 	public RootViewController() {}
 
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		TextAreaAppender.setTextArea(logTextArea);
 		expenseViewController.setExpenseReadWriter(SQLManager.getSQL());
 		expenseViewController.setRightPaneSetter(this);
 		expenseViewController.setUser(user);
@@ -77,7 +83,11 @@ public class RootViewController implements Initializable, RightPaneSetter {
 		fc.setInitialDirectory(new File("/Users/Sami/Desktop/"));
 		fc.setSelectedExtensionFilter(new ExtensionFilter("Comma-separated-file", ".csv")); 
 		File chosenFile = fc.showOpenDialog(stage);
-
+		
+		/* if operation is aborted */ 
+		if (chosenFile == null) 
+			return; 
+		
 		try {
 			/* save in database */ 
 			List<Expense> expenses = BarclaysCSVParser.parse(sqlManager, chosenFile.getPath());
