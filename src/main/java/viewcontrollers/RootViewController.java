@@ -201,6 +201,8 @@ public class RootViewController implements Initializable, RightPaneSetter {
 		userLabel.setText(user.getFullName());
 		accountViewController.setUser(user);
 		expenseViewController.setUser(user);
+		expenseViewController.refresh(); 
+		accountViewController.refresh();
 	}
 	public void setStage(Stage stage) {
 		this.stage = stage;

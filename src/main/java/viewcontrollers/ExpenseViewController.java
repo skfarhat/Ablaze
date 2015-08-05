@@ -20,6 +20,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.TreeTableView;
 import javafx.util.Callback;
+import models.Account;
 import models.Expense;
 import models.User;
 
@@ -62,18 +63,33 @@ public class ExpenseViewController implements Initializable {
 		expensesList = FXCollections.observableArrayList(); 
 		expensesTreeView.setRoot(new TreeItem<Expense>());
 
+		/*
+		 * we dont' want dates to show for the expenses themselves but only for their parent node, 
+		 * which corresponds to an Expense object with only the dateIncured attribute set.   
+		 */
 		dateColumn.setCellValueFactory(
 				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
-						return new SimpleStringProperty(p.getValue().getValue().getDateIncurred().toString());  
+						
+						/* check if this is a real expense object or just one that contains the date 
+						 * */ 
+						if (p.getValue().getValue().getAccount() == null) { 
+							return new SimpleStringProperty(p.getValue().getValue().getDateIncurred().toString());  
+						}
+						else 
+							return new SimpleStringProperty("");
 					}
 				});
 		descriptionColumn.setCellValueFactory(
 				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
-						return new SimpleStringProperty(p.getValue().getValue().getDescription());   
+						String description = p.getValue().getValue().getDescription(); 
+						if (description != null)
+							return new SimpleStringProperty(description);
+						else 
+							return new SimpleStringProperty(""); 
 					}
 				});
 
@@ -81,7 +97,12 @@ public class ExpenseViewController implements Initializable {
 				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
-						return new SimpleStringProperty(p.getValue().getValue().getAmount().toString());
+						Double amount = p.getValue().getValue().getAmount(); 
+						if (amount != null)
+						return new SimpleStringProperty(amount.toString());
+						else 
+							return new SimpleStringProperty("");
+							
 					}
 				});
 
@@ -90,7 +111,11 @@ public class ExpenseViewController implements Initializable {
 					@Override
 					public ObservableValue<String> call(
 							CellDataFeatures<Expense, String> param) {
-						return new ReadOnlyStringWrapper(param.getValue().getValue().getAccount().getName());
+						Account acct = param.getValue().getValue().getAccount(); 
+						if (acct != null)
+							return new ReadOnlyStringWrapper(acct.getName());
+						else 
+							return new ReadOnlyStringWrapper(""); 
 					}
 				});
 
@@ -113,11 +138,14 @@ public class ExpenseViewController implements Initializable {
 			}
 			ex.add(e); 
 		}
-		
-		for (Entry<LocalDate, ArrayList<Expense>> e: map.entrySet()) {
-			TreeItem<Expense> item = new TreeItem<Expense>(e.getValue().get(0));
 
-			for (int i = 1; i < e.getValue().size(); i++) { 
+		for (Entry<LocalDate, ArrayList<Expense>> e: map.entrySet()) {
+			Expense temp = new Expense(); 
+			temp.setDateIncurred(e.getKey());
+
+			TreeItem<Expense> item = new TreeItem<Expense>(temp);
+
+			for (int i = 0; i < e.getValue().size(); i++) { 
 				Expense expense = e.getValue().get(i); 
 				item.getChildren().add(new TreeItem<Expense>(expense)); 
 			}

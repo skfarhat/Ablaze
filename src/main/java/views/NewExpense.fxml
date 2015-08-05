@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="viewcontrollers.NewExpenseViewController" >
+<AnchorPane prefHeight="600.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.NewExpenseViewController">
 	<children>
 		<Label layoutX="17.0" layoutY="7.0" text="New Expense">
 			<font>
@@ -26,10 +25,12 @@ fx:controller="viewcontrollers.NewExpenseViewController" >
 		<Label layoutX="15.0" layoutY="170.0" text="Sub-Category" />
 		<ChoiceBox fx:id="accountChoiceBox" layoutX="13.0" layoutY="311.0" prefWidth="150.0" />
 		<Label layoutX="14.0" layoutY="286.0" text="Account" />
-		<TableView editable="true" layoutX="10.0" layoutY="357.0" prefHeight="200.0" prefWidth="170.0">
+		<TableView editable="true" layoutX="10.0" layoutY="357.0" prefHeight="200.0" prefWidth="170.0" AnchorPane.bottomAnchor="50.0">
 			<columns>
 				<TableColumn prefWidth="150.0" resizable="false" text="Tags" />
 			</columns>
 		</TableView>
+      <Button layoutX="151.0" layoutY="627.0" mnemonicParsing="false" onAction="#confirmButtonPressed" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button layoutX="26.0" layoutY="627.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
 	</children>
 </AnchorPane>

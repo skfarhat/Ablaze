@@ -8,14 +8,14 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="viewcontrollers.AccountViewController">
+<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.AccountViewController">
 	<children>
-		<TableView layoutX="14.0" layoutY="45.0" prefHeight="200.0" prefWidth="578.0">
+		<TableView fx:id="accountsTable" layoutX="14.0" layoutY="45.0" prefHeight="200.0" prefWidth="578.0">
 			<columns>
-				<TableColumn fx:id="sortCodeColumn" prefWidth="75.0" text="Sort-Code" />
-				<TableColumn fx:id="accountNumberColumn" prefWidth="125.0" text="Account Number" />
 				<TableColumn fx:id="nameColumn" prefWidth="64.0" text="Name" />
 				<TableColumn fx:id="amountColumn" prefWidth="95.0" text="Amount" />
+				<TableColumn fx:id="sortCodeColumn" prefWidth="75.0" text="Sort-Code" />
+				<TableColumn fx:id="accountNumberColumn" prefWidth="125.0" text="Account Number" />
 			</columns>
 		</TableView>
 		<AnchorPane layoutX="14.0" prefHeight="43.0" prefWidth="134.0">

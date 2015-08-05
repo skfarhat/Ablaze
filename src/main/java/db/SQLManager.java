@@ -124,7 +124,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from Account where account.user=:user");
+		Query query = session.createQuery("from Account where user.id=:user");
 		query.setParameter("user", user.getId()); // maybe put the id here ? 
 		List<Account> accountList = query.list();
 
