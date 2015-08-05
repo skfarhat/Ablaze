@@ -42,8 +42,6 @@ public class Launcher extends Application {
 		controller.refresh();
 		Scene scene = new Scene(rootPane);
 		
-//		primaryStage.getIcons().add(new Image(Launcher.class.getResourceAsStream("../views/icon.png")));
-
 		primaryStage.setScene(scene);
 		primaryStage.show(); 
 	}
