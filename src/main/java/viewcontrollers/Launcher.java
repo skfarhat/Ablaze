@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import logic.CategoriesManager;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 
 import db.SQLManager;
 

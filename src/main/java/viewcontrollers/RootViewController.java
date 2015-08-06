@@ -15,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -26,7 +25,6 @@ import models.User;
 
 import org.apache.log4j.Logger;
 
-import util.TextAreaAppender;
 import viewcontrollers.popups.NewUserController;
 import db.SQLManager;
 import exceptions.NullAccountException;
@@ -51,8 +49,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 	@FXML AnchorPane rightPane; 
 	@FXML AnchorPane bottomPane; 
 
-	@FXML private TextArea logTextArea; 
-	
+
 	/**
 	 * 
 	 */
@@ -60,13 +57,13 @@ public class RootViewController implements Initializable, RightPaneSetter {
 
 	@FXML ExpenseViewController expenseViewController; 
 	@FXML AccountViewController accountViewController; 
-	
+	@FXML LoggerViewController 	loggerViewController; 
 
 	public RootViewController() {}
 
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		TextAreaAppender.setTextArea(logTextArea);
+	
 		expenseViewController.setExpenseReadWriter(SQLManager.getSQL());
 		expenseViewController.setRightPaneSetter(this);
 		expenseViewController.setUser(user);

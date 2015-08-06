@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.LoggerViewController">
+	<children>
+		<TextArea  fx:id="logTextArea" prefHeight="200.0" prefWidth="200.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+		<Button layoutX="119.0" layoutY="14.0" mnemonicParsing="false"
+			onAction="#clearButtonPressed" text="Clear" AnchorPane.rightAnchor="2.0"
+			AnchorPane.topAnchor="2.0" />
+		<ComboBox fx:id="priorityComboBox" layoutX="787.0" layoutY="2.0" prefWidth="150.0"
+			promptText="Priority" AnchorPane.topAnchor="2.0" />
+	</children>
+</AnchorPane>
+

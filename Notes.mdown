@@ -16,23 +16,27 @@ TODO:
 * Implement 'last-login' for users and then sort users in login view by latest 'last-login' date. 
   Have the Login controller select the first item in the list 
 * Add card -- that is linked to an account.
-
-## PENDING
 * clear button for log
 * set priority for log
+* clean memos being saved in expenses (no date) 
+
+## PENDING
+* finalise new expense 
 * figure out how the expenses adding will be managed
 * card info hidden at first but revealed on reveal button 
 * card name in NewCard.fxml
-* clean memos being saved in expenses (no date) 
 * filter expenses to the last month 
 * add pound sterling to amount
   Can save card information (securely) and display on need
-* Implement SettingsView --    
+* Implement SettingsView --
+	> clear database
+	> manage users (delete some)    
 * database backup 
 * parse legacy accounting
 * application icon [deployment phase]
-
+* total from all accounts (maybe this belongs in stats ?)
 * add tags to expenses 
 
 # NEW FEATURES
 * Add notes
+* add useful shortcuts -- make the sortcuts editable through a file 

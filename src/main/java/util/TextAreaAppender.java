@@ -15,7 +15,11 @@ import org.apache.log4j.spi.LoggingEvent;
 public class TextAreaAppender extends WriterAppender {
  
     private static volatile TextArea textArea = null;
- 
+
+    /* default show debug */ 
+//    private static int level = Level.DEBUG.toInt();
+    private static Level level = Level.DEBUG;
+    
     /**
      * Set the target TextArea for the logging information to appear.
      *
@@ -34,7 +38,7 @@ public class TextAreaAppender extends WriterAppender {
     public void append(final LoggingEvent loggingEvent) {
     	
     	// dont show message with lower priority than debug
-    	if(loggingEvent.getLevel().toInt() > Level.DEBUG.toInt())
+    	if(!loggingEvent.getLevel().isGreaterOrEqual(level))
     		return; 
     	
         final String message = this.layout.format(loggingEvent);
@@ -64,4 +68,8 @@ public class TextAreaAppender extends WriterAppender {
             // ignore case when the platform hasn't yet been iniitialized
         }
     }
+    
+    public static void setLevel(Level level) {
+		TextAreaAppender.level = level;
+	}
 }

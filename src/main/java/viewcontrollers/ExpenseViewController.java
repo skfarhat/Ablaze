@@ -155,14 +155,17 @@ public class ExpenseViewController implements Initializable {
 
 	}
 	@FXML public void refresh() {
-		logger.debug("refresh"); 
+		logger.trace("refresh() - trace"); 
+		logger.debug("refresh() - debug"); 
+		logger.info("refresh() - info"); 
+		logger.warn("refresh() - warn"); 
+		logger.error("refresh() - error"); 
+
 		logger.debug("user: " + user + " readwriter: " + expenseReadWriter);
 		if (user != null && expenseReadWriter != null) {
 			logger.debug("inside the condition"); 
 			expensesList = FXCollections.observableArrayList(expenseReadWriter.getAllExpensesForUser(user));
 			logger.debug("expensesList: " + expensesList.size());
-			//			expensesTable.set
-			//			expensesTable.setItems(expensesList);
 			filterArray(); 
 		}
 
