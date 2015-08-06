@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.NewCardViewController">
+   <children>
+      <TextField fx:id="securityCodeTextField" alignment="CENTER" layoutX="19.0" layoutY="146.0" promptText="Security Code" />
+      <TextField fx:id="cardNumberTextField" alignment="CENTER" layoutX="19.0" layoutY="99.0" promptText="Card Number" />
+      <ChoiceBox fx:id="accountChoiceBox" layoutX="19.0" layoutY="234.0" prefHeight="26.0" prefWidth="163.0" />
+      <Button layoutX="124.0" layoutY="353.0" mnemonicParsing="false" onAction="#confirmButtonPressed" text="Confirm" />
+      <Button layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="26.0" prefWidth="58.0" text="Cancel">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="72.0" layoutY="14.0" text="Add Card" />
+      <DatePicker fx:id="expiryDatePicker" layoutX="95.0" layoutY="284.0" prefHeight="26.0" prefWidth="88.0" />
+      <Label layoutX="19.0" layoutY="289.0" text="Expires" />
+      <TextField fx:id="nameTextField" alignment="CENTER" layoutX="19.0" layoutY="55.0" promptText="Alias" />
+      <TextField fx:id="cardTypeTextField" alignment="CENTER" layoutX="19.0" layoutY="191.0" promptText="Card Type" />
+   </children>
+</AnchorPane>

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import models.Account;
+import models.Card;
 import models.Expense;
 import models.User;
 
@@ -22,7 +23,7 @@ import util.PasswordManager;
  * Class responsible for reads and writes to the SQL database
  * @author Sami
  */
-public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseReadWriter {
+public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseReadWriter, CardReadWriter {
 
 	/** Log4j */ 
 	@SuppressWarnings("unused")
@@ -92,7 +93,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		user.setLastName(lastName);
 		user.setPassword(PasswordManager.getHash(password));
 		user.setLastLogin(LocalDateTime.now());
-		
+
 		/* persist */ 
 		session.save(user); 
 
@@ -123,11 +124,13 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		user.setLastLogin(LocalDateTime.now()); 
 		session.update(user);
-		
+
 		session.getTransaction().commit();
 	}
 
 
+	// ================================================================================================
+	// ================================================================================================
 
 
 	// ============
@@ -259,6 +262,28 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		/* save */ 
 		session.save(expense);
+
+		/* commit */ 
+		session.getTransaction().commit();
+	}
+	
+	// ================================================================================================
+	// ================================================================================================
+
+
+
+	// ============
+	// | CARD     |
+	// ============
+	
+	@Override
+	public void createCard(Card card) {
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction(); 
+
+		/* persist */ 
+		session.save(card); 
 
 		/* commit */ 
 		session.getTransaction().commit();

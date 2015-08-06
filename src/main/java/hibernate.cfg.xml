@@ -38,6 +38,7 @@
 		<mapping class="models.User" />
 		<mapping class="models.Account" />
 		<mapping class="models.Expense" />
+		<mapping class="models.Card" />
 
 	</session-factory>
 

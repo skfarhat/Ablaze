@@ -1,4 +1,7 @@
 package models;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -37,11 +41,10 @@ public class Account {
 	@Column(name="name")	
 	private String name; 
 	
-//	@Column(name = "dateCreated")
-//    @Convert(converter = LocalDateConverter.class)
-//	private LocalDate dateCreated; 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+	private Set<Card> cards = new HashSet<Card>(0);
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user", nullable = false)
 	private User user;
 	
@@ -50,6 +53,9 @@ public class Account {
 	}
 	public String getSortCode() {
 		return sortCode;
+	}
+	public Set<Card> getCards() {
+		return cards;
 	}
 //	public LocalDate getDateCreated() {
 //		return dateCreated;
