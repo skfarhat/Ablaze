@@ -85,8 +85,8 @@ public class BarclaysCSVParser {
 			Integer accountNumber	= Integer.parseInt(accountDetails[1]); 
 
 			Double amount 			= Double.parseDouble(parts[3]); 
-			String type 			= parts[4]; // payment, transfer, direct debit..
-			String memo 			= parts[5];	// memo  
+			String type 			= parts[4]; 					// payment, transfer, direct debit..
+			String memo 			= processMemo(parts[5]);		// memo  
 
 			/// TODO; can we use formatter instead ? 
 			LocalDate dateIncurred = converter.fromString(date);
@@ -167,5 +167,13 @@ public class BarclaysCSVParser {
 		
 		/* if no regex match is found */ 
 		return null; 
+	}
+
+	private static String processMemo(String memo) { 
+		Matcher m = datePattern.matcher(memo); 
+		if (m.find()) { 
+			return m.replaceAll("");
+		}
+		return memo; 
 	}
 }
