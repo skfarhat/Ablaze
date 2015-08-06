@@ -13,5 +13,7 @@ public interface RightPaneSetter {
 	
 	public void showAddAccountOnRightPane(String sortCode, String accountNumber);
 
-	public void showAddExpenseOnRightPane(); 
+	public void showAddExpenseOnRightPane();
+
+	public void showAddCardOnRightPane(); 
 }

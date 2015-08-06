@@ -144,7 +144,7 @@ public class ExpenseViewController implements Initializable {
 			temp.setDateIncurred(e.getKey());
 
 			TreeItem<Expense> item = new TreeItem<Expense>(temp);
-
+			item.setExpanded(true);
 			for (int i = 0; i < e.getValue().size(); i++) { 
 				Expense expense = e.getValue().get(i); 
 				item.getChildren().add(new TreeItem<Expense>(expense)); 
@@ -152,21 +152,6 @@ public class ExpenseViewController implements Initializable {
 
 			expensesTreeView.getRoot().getChildren().add(item); 
 		}
-
-		//		
-		//		
-		////		for (TreeItem<Expense> node : nodeList) { 
-		////			node.getChildren().addall
-		////			expensesTreeView.getRoot().getChildren().add(node); 
-		////		}
-		//		logger.debug("map: " + nodes.size());
-		//		logger.debug("expensesTreeView: " + expensesTreeView); 
-		//		logger.debug("expensesTreeView:children: " + expensesTreeView.getRoot().getChildren()); 
-		//		expensesTreeView.getRoot().getChildren().clear();
-		//		for (Entry<LocalDate, TreeItem<Expense>> e: nodes.entrySet()) { 
-		//			expensesTreeView.getRoot().getChildren().addAll(FXCollections.observableArrayList(nodeList));
-		//		}
-
 
 	}
 	@FXML public void refresh() {

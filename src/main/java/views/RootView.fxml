@@ -47,15 +47,16 @@
 								</Menu>
 								<Menu mnemonicParsing="false" text="Import">
 									<items>
-										<MenuItem mnemonicParsing="false" onAction="#importCSV" text="Excel (.csv)" />
+										<MenuItem mnemonicParsing="false" onAction="#importCSV" text="Barclays (.csv)" />
 									</items>
 								</Menu>
 								<Menu mnemonicParsing="false" text="Tools">
 									<items>
 										<MenuItem mnemonicParsing="false" onAction="#addUser" text="Add User" />
 										<MenuItem mnemonicParsing="false" text="Add Expense" />
-										<MenuItem mnemonicParsing="false" text="Add Transaction" />
 										<MenuItem mnemonicParsing="false" text="Change Password" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+										<MenuItem mnemonicParsing="false" text="Settings" />
 									</items>
 								</Menu>
 								<Menu mnemonicParsing="false" text="Help">

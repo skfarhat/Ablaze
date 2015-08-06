@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import util.LocalDateConverter;
 import util.LocalDateTimeConverter;
 
 /**
@@ -44,7 +43,7 @@ public class User {
     @Convert(converter = LocalDateTimeConverter.class)
 	private LocalDateTime lastLogin; 
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<Account> accounts= new HashSet<Account>(0);
 
 	/** Constructor */ 
@@ -86,5 +85,8 @@ public class User {
 		return getFullName(); 
 	}
 
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
 
 }

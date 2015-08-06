@@ -148,6 +148,34 @@ public class RootViewController implements Initializable, RightPaneSetter {
 	}
 
 	
+	@Override
+	public void showAddCardOnRightPane() { 
+
+		final String filename = "../views/NewCard.fxml"; 
+		try {
+			/* load fxml */ 
+			FXMLLoader loader = new FXMLLoader(); 
+			loader.setLocation(RootViewController.class.getResource(filename));
+			AnchorPane rootPane = loader.load(); 
+			NewCardViewController controller = loader.getController(); 
+			/* configure the controller
+			 * call autofillTextFields at the end
+			 */
+//			controller.setAccountReader(sqlManager);
+			controller.setWriter(sqlManager);
+			controller.setRightPaneSetter(this);
+			controller.setUser(user);
+
+			/* change the displayed pane on the right side */ 
+			rightPane.getChildren().clear(); 
+			rightPane.getChildren().add(rootPane);
+		} catch (IOException io) { 
+			io.printStackTrace();
+			log.error(String.format("Problem loading %s", filename));
+		}
+	}
+	
+	@Override
 	public void showAddExpenseOnRightPane() { 
 
 		final String filename = "../views/NewExpense.fxml"; 
