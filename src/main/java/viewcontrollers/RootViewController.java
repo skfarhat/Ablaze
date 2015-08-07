@@ -44,8 +44,6 @@ public class RootViewController implements Initializable, RightPaneSetter {
 
 	private Stage stage; 
 
-	@FXML private Label userLabel;  
-
 	@FXML AnchorPane rightPane; 
 	@FXML AnchorPane bottomPane; 
 
@@ -233,7 +231,6 @@ public class RootViewController implements Initializable, RightPaneSetter {
 
 	public void setUser(User user) {
 		this.user = user;
-		userLabel.setText(user.getFullName());
 		accountViewController.setUser(user);
 		expenseViewController.setUser(user);
 		expenseViewController.refresh(); 

@@ -6,17 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
-	prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="viewcontrollers.RootViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.RootViewController">
 	<children>
-		<BorderPane prefHeight="200.0" prefWidth="200.0"
-			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<center>
-				<TabPane tabClosingPolicy="UNAVAILABLE"
-					BorderPane.alignment="CENTER">
+				<TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
 					<tabs>
 						<Tab text="Expenses">
 							<content>
@@ -30,8 +24,7 @@
 						</Tab>
 						<Tab text="Statistics">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0"
-									prefHeight="180.0" prefWidth="200.0" />
+								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
 							</content>
 						</Tab>
 					</tabs>
@@ -40,8 +33,7 @@
 			<top>
 				<AnchorPane BorderPane.alignment="CENTER">
 					<children>
-						<MenuBar AnchorPane.leftAnchor="0.0"
-							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<menus>
 								<Menu mnemonicParsing="false" text="File">
 									<items>
@@ -55,14 +47,12 @@
 								</Menu>
 								<Menu mnemonicParsing="false" text="Import">
 									<items>
-										<MenuItem mnemonicParsing="false" onAction="#importCSV"
-											text="Barclays (.csv)" />
+										<MenuItem mnemonicParsing="false" onAction="#importCSV" text="Barclays (.csv)" />
 									</items>
 								</Menu>
 								<Menu mnemonicParsing="false" text="Tools">
 									<items>
-										<MenuItem mnemonicParsing="false" onAction="#addUser"
-											text="Add User" />
+										<MenuItem mnemonicParsing="false" onAction="#addUser" text="Add User" />
 										<MenuItem mnemonicParsing="false" text="Add Expense" />
 										<MenuItem mnemonicParsing="false" text="Change Password" />
 										<SeparatorMenuItem mnemonicParsing="false" />
@@ -79,40 +69,6 @@
 					</children>
 				</AnchorPane>
 			</top>
-			<left>
-				<AnchorPane BorderPane.alignment="CENTER">
-					<children>
-						<GridPane AnchorPane.bottomAnchor="-0.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-							AnchorPane.topAnchor="300.0">
-							<columnConstraints>
-								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-									prefWidth="100.0" />
-							</columnConstraints>
-							<rowConstraints>
-								<RowConstraints maxHeight="409.0" minHeight="0.0"
-									prefHeight="31.0" vgrow="SOMETIMES" />
-								<RowConstraints maxHeight="491.0" minHeight="10.0"
-									prefHeight="48.0" vgrow="SOMETIMES" />
-								<RowConstraints maxHeight="491.0" minHeight="10.0"
-									prefHeight="177.0" vgrow="SOMETIMES" />
-							</rowConstraints>
-						</GridPane>
-						<AnchorPane prefHeight="41.0" prefWidth="200.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-							AnchorPane.topAnchor="0.0">
-							<children>
-								<Label fx:id="userLabel" layoutX="14.0" layoutY="13.0"
-									prefHeight="16.0" prefWidth="131.0" text="Sami Farhat">
-									<font>
-										<Font size="14.0" />
-									</font>
-								</Label>
-							</children>
-						</AnchorPane>
-					</children>
-				</AnchorPane>
-			</left>
 			<right>
 				<AnchorPane fx:id="rightPane">
 					<children>
