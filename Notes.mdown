@@ -21,6 +21,7 @@ TODO:
 * clean memos being saved in expenses (no date) 
 
 ## PENDING
+* typing enter on login view creates == proceedbutton
 * finalise new expense 
 * figure out how the expenses adding will be managed
 * card info hidden at first but revealed on reveal button 

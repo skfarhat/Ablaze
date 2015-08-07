@@ -12,7 +12,7 @@
 	<children>
 		<TableView fx:id="accountsTable" layoutX="14.0" layoutY="45.0" prefHeight="200.0" prefWidth="578.0" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
 			<columns>
-				<TableColumn fx:id="nameColumn" prefWidth="64.0" text="Name" />
+				<TableColumn fx:id="nameColumn" prefWidth="120.0" text="Name" />
 				<TableColumn fx:id="amountColumn" prefWidth="95.0" text="Amount" />
 				<TableColumn fx:id="sortCodeColumn" prefWidth="75.0" text="Sort-Code" />
 				<TableColumn fx:id="accountNumberColumn" prefWidth="125.0" text="Account Number" />
@@ -33,7 +33,7 @@
         </columns>
       </TableView>
       <Button layoutX="119.0" layoutY="9.0" mnemonicParsing="false" onAction="#addCardButtonPressed" text="Add Card" />
-      <ToggleButton fx:id="revealToggleButton" layoutX="568.0" layoutY="9.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="Reveal" onAction="#revealButtonPressed" />
+      <ToggleButton fx:id="revealToggleButton" layoutX="568.0" layoutY="9.0" mnemonicParsing="false" onAction="#revealButtonPressed" prefHeight="26.0" prefWidth="75.0" text="Reveal" />
       <Button layoutX="212.0" layoutY="9.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
 	</children>
 </AnchorPane>

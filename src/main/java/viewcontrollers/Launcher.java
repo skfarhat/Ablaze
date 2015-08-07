@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import logic.CategoriesManager;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
 
 import db.SQLManager;
 
@@ -47,6 +46,7 @@ public class Launcher extends Application {
 		primaryStage.show(); 
 	}
 
+	
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
 		CategoriesManager.initialise(); 
 		launch(args); 

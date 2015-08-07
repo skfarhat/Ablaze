@@ -86,7 +86,7 @@ public class AccountViewController implements Initializable {
 						return new SimpleStringProperty(cardNumber.replaceAll("\\d", "*")); 
 					}});
 
-//		cardNumberColumn.setCellValueFactory(new PropertyValueFactory<>("cardNumber"));
+		//		cardNumberColumn.setCellValueFactory(new PropertyValueFactory<>("cardNumber"));
 		accountColumn.setCellValueFactory(new PropertyValueFactory<>("account"));
 		securityCodeColumn.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Card,String>, ObservableValue<String>>() {
@@ -102,7 +102,7 @@ public class AccountViewController implements Initializable {
 						}
 						return new SimpleStringProperty(securityCode.replaceAll("\\d", "*")); 
 					}});
-//		securityCodeColumn.setCellValueFactory(new PropertyValueFactory<>("securityCode"));
+		//		securityCodeColumn.setCellValueFactory(new PropertyValueFactory<>("securityCode"));
 		expiryDateColumn.setCellValueFactory(new PropertyValueFactory<>("expiryDate"));
 
 
@@ -144,10 +144,12 @@ public class AccountViewController implements Initializable {
 	@FXML private void revealButtonPressed() { 
 		refreshCardsTableView(); 
 	}
-	
-	private void refreshCardsTableView() { 
-		/* force the tableview to refresh */ 
-		cardsList.set(0, cardsList.get(0));
+
+	private void refreshCardsTableView() {
+		if (cardsList.size() > 1) {
+			/* force the tableview to refresh */ 
+			cardsList.set(0, cardsList.get(0));
+		}
 	}
 	public void setAccountsReadWriter(AccountReadWriter accountsReadWriter) {
 		this.accountsReadWriter = accountsReadWriter;
