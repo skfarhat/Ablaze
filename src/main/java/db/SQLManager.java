@@ -1,6 +1,8 @@
 package db;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import models.Account;
@@ -9,11 +11,13 @@ import models.Expense;
 import models.User;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import util.PasswordManager;
@@ -198,8 +202,6 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 	// ================================================================================================
 	// ================================================================================================
 
-
-
 	// ============
 	// | EXPENSES |
 	// ============
@@ -267,6 +269,25 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		session.getTransaction().commit();
 	}
 	
+	@Override
+	public List<Expense> getExpensesForMonth(Month month, int year, User user) {
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		Query query = session.createQuery("from Expense where account.user.id = :user");
+		Criteria c1 = session.createCriteria(Expense.class); 
+		query.setParameter("user", user.getId());
+		LocalDate start 	= LocalDate.of(year, month.getValue(), 1);
+		LocalDateTime end 	= start.plusMonths(1).atStartOfDay().minusSeconds(1); 
+		c1.add(Restrictions.between("dateIncurred", start, end)); 
+		List<Expense> expenses = query.list();
+
+		/* commit */ 
+		session.getTransaction().commit();
+
+		return expenses;
+	}
 	// ================================================================================================
 	// ================================================================================================
 
