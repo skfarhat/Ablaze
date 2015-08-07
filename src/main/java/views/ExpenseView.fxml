@@ -12,6 +12,13 @@
 			<children>
 				<Button layoutY="12.0" mnemonicParsing="false" onAction="#addExpense" prefHeight="26.0" prefWidth="108.0" text="Add Expense" />
 				<Button layoutX="148.0" layoutY="12.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+				<AnchorPane layoutX="514.0" layoutY="3.0" AnchorPane.rightAnchor="0.0">
+					<children>
+						<fx:include fx:id="monthPicker" source="controls/MonthPickerView.fxml" />
+					</children>
+				</AnchorPane>
+				<!-- <MonthPicker fx:id="monthPicker" layoutX="300.0"
+					layoutY="12.0" /> -->
 			</children>
 		</AnchorPane>
 		<TreeTableView fx:id="expensesTreeView" showRoot="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">

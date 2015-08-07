@@ -2,14 +2,16 @@ package viewcontrollers;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +28,7 @@ import models.User;
 
 import org.apache.log4j.Logger;
 
+import controls.MonthPickerController;
 import db.ExpenseReadWriter;
 
 /**
@@ -56,7 +59,22 @@ public class ExpenseViewController implements Initializable {
 	private User user; 
 	private RightPaneSetter rightPaneSetter; 
 
+	@FXML private MonthPickerController monthPickerController; 
 
+	private ObjectPropertyBase<LocalDate> monthPicker = new ObjectPropertyBase<LocalDate>() {
+
+		@Override
+		public Object getBean() {
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			return "dateProperty"; 
+		}
+	};
+
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -71,7 +89,7 @@ public class ExpenseViewController implements Initializable {
 				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
-						
+
 						/* check if this is a real expense object or just one that contains the date 
 						 * */ 
 						if (p.getValue().getValue().getAccount() == null) { 
@@ -99,10 +117,10 @@ public class ExpenseViewController implements Initializable {
 					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
 						Double amount = p.getValue().getValue().getAmount(); 
 						if (amount != null)
-						return new SimpleStringProperty(amount.toString());
+							return new SimpleStringProperty(amount.toString());
 						else 
 							return new SimpleStringProperty("");
-							
+
 					}
 				});
 
@@ -119,6 +137,17 @@ public class ExpenseViewController implements Initializable {
 					}
 				});
 
+		monthPicker.bind(monthPickerController.getDate()); 
+		monthPicker.addListener(new ChangeListener<LocalDate>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends LocalDate> observable,
+					LocalDate oldValue, LocalDate newValue) {
+				logger.debug("detected the change !"); 
+				refresh(); 
+			}
+		});
 		refresh(); 
 		filterArray(); 
 	}
@@ -164,7 +193,11 @@ public class ExpenseViewController implements Initializable {
 		logger.debug("user: " + user + " readwriter: " + expenseReadWriter);
 		if (user != null && expenseReadWriter != null) {
 			logger.debug("inside the condition"); 
-			expensesList = FXCollections.observableArrayList(expenseReadWriter.getAllExpensesForUser(user));
+//			expensesList = FXCollections.observableArrayList(expenseReadWriter.getAllExpensesForUser(user));
+			Month month = monthPickerController.getDate().get().getMonth(); 
+			int year = monthPickerController.getDate().get().getYear(); 
+			expensesList = FXCollections.observableArrayList(expenseReadWriter.getExpensesForMonth(month, year, user)); 
+			
 			logger.debug("expensesList: " + expensesList.size());
 			filterArray(); 
 		}
@@ -176,17 +209,28 @@ public class ExpenseViewController implements Initializable {
 		}
 	}
 
+
+	@FXML private void leftButtonPressed() { 
+		logger.debug("left button presed on month picker");
+	}
+	@FXML private void rightButtonPressed() { 
+		logger.debug("right button presed on month picker");
+	}
+
+	private void leftButtonMonthPicker() { 
+
+	}
+	private void rightButtonMonthPicker() { 
+
+	}
+
 	public void setRightPaneSetter(RightPaneSetter rightPaneSetter) {
 		this.rightPaneSetter = rightPaneSetter;
 	}
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 	public void setExpenseReadWriter(ExpenseReadWriter expenseReadWriter) {
 		this.expenseReadWriter = expenseReadWriter;
 	}
-
-
-
 }

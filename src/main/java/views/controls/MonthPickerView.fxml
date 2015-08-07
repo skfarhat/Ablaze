@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controls.MonthPickerController">
+	<children>
+		<Button fx:id="leftButton" layoutX="14.0" layoutY="12.0"
+			mnemonicParsing="false" onAction="#leftButtonPressed" prefHeight="26.0"
+			prefWidth="34.0" AnchorPane.bottomAnchor="10.0"
+			AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+			<graphic>
+				<ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
+					preserveRatio="true">
+					<image>
+						<Image url="@arrow-left.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<Button fx:id="rightButton" layoutX="141.0" layoutY="12.0"
+			mnemonicParsing="false" onAction="#rightButtonPressed" prefHeight="26.0"
+			prefWidth="34.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+			<graphic>
+				<ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
+					preserveRatio="true">
+					<image>
+						<Image url="@arrow-right.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+		<Label fx:id="monthLabel" alignment="CENTER" layoutX="56.0"
+			layoutY="17.0" prefHeight="16.0" prefWidth="89.0" text="Month"
+			AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+	</children>
+</AnchorPane>
