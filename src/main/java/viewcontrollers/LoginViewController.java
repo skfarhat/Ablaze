@@ -1,9 +1,11 @@
 package viewcontrollers;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -85,6 +87,14 @@ public class LoginViewController implements Initializable, Refreshable {
 					}
 				});
 
+		/* request focus on the password text field 
+		 * (can thus directly start to type */
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				passwordTextField.requestFocus();				
+			}
+		});
 		refresh();
 	}
 
@@ -94,7 +104,7 @@ public class LoginViewController implements Initializable, Refreshable {
 
 			usersList.clear();
 			users.clear();
-			
+
 			usersList.addAll(userReader.getAllUsers());
 
 			/* create a list with all the names of the users */ 
@@ -129,7 +139,7 @@ public class LoginViewController implements Initializable, Refreshable {
 	}
 
 	@FXML private void proceedButtonPressed() {
-		
+
 		/* update last-login time for the user */ 
 		userWriter.updateLastLogin(selectedUser);
 		/* load fxml */ 
@@ -147,6 +157,7 @@ public class LoginViewController implements Initializable, Refreshable {
 			controller.setUser(selectedUser);
 			controller.setStage(newStage);
 			newStage.show();
+			stage.setTitle(selectedUser.getFullName());
 			stage.close();
 		} 
 		catch(IOException exc) { 
