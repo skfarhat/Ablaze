@@ -64,10 +64,11 @@ public class LoginViewController implements Initializable, Refreshable {
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
 
-				String hashed = PasswordManager.getHash(newValue);
-				if (hashed.equals(selectedUser.getPassword())) { 
-					logger.trace("success!");
+				//				String hashed = PasswordManager.getHash(newValue);
+				if (passwordIsCorrect(newValue)) {
 					proceedButton.setDisable(false);
+				} else { 
+					proceedButton.setDisable(true);
 				}
 			}
 		});
@@ -115,6 +116,11 @@ public class LoginViewController implements Initializable, Refreshable {
 		}
 	}
 
+	private boolean passwordIsCorrect(String enteredPass) {
+		String hashed = PasswordManager.getHash(enteredPass);
+		return hashed.equals(selectedUser.getPassword());  
+	}
+
 	@FXML private void addUser() { 
 		final String filename = "../views/NewUser.fxml"; 
 
@@ -138,8 +144,22 @@ public class LoginViewController implements Initializable, Refreshable {
 		logger.debug("end of newUserFrame"); 
 	}
 
+	
+	/**
+	 * called when the proceed button is pressed (or the user pressed 'enter' on the textfield)
+	 * calling this method does not guarantee the user will be logged in, because a check on the password is also done
+	 */
 	@FXML private void proceedButtonPressed() {
 
+		if (passwordIsCorrect(passwordTextField.getText())) {
+			loginPassed();
+		}
+	}
+
+	/**
+	 * called only once the user-entered password is correct
+	 */
+	private void loginPassed() { 
 		/* update last-login time for the user */ 
 		userWriter.updateLastLogin(selectedUser);
 		/* load fxml */ 
@@ -164,9 +184,7 @@ public class LoginViewController implements Initializable, Refreshable {
 			logger.error(exc.getMessage());
 			exc.printStackTrace();
 		}
-
 	}
-
 	@FXML private void exitButtonPressed() { 
 		stage.close();
 	}
