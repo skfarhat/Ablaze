@@ -19,14 +19,14 @@ TODO:
 * clear button for log
 * set priority for log
 * clean memos being saved in expenses (no date) 
+* typing enter on login view creates == proceedbutton
+* filter expenses to the last month 
 
 ## PENDING
-* typing enter on login view creates == proceedbutton
-* finalise new expense 
 * figure out how the expenses adding will be managed
+* finalise new expense 
 * card info hidden at first but revealed on reveal button 
 * card name in NewCard.fxml
-* filter expenses to the last month 
 * add pound sterling to amount
   Can save card information (securely) and display on need
 * Implement SettingsView --

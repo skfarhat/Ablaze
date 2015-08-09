@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
@@ -275,13 +276,22 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from Expense where account.user.id = :user");
-		Criteria c1 = session.createCriteria(Expense.class); 
-		query.setParameter("user", user.getId());
+		Query query = session.createQuery("from Expense where account.user.id = :user "
+				+ "and dateIncurred between :startDate and :endDate order by dateIncurred DESC");
+//		Criteria c1 = session.createCriteria(Expense.class);
+//		c1.add(Restrictions.eq("account.user.id", user.getId()));
 		LocalDate start 	= LocalDate.of(year, month.getValue(), 1);
-		LocalDateTime end 	= start.plusMonths(1).atStartOfDay().minusSeconds(1); 
-		c1.add(Restrictions.between("dateIncurred", start, end)); 
-		List<Expense> expenses = query.list();
+		LocalDate end 		= start.plusDays(start.lengthOfMonth() - 1); 
+
+		logger.debug("startDate: " + start.toString() + " endDate: " + end.toString());
+		query.setParameter("user", user.getId());
+		query.setParameter("startDate", start); 
+		query.setParameter("endDate", end); 
+//		c1.add(Restrictions.between("dateIncurred", start, end));
+//		c1.addOrder(Order.desc("dateIncurred"));
+		
+//		List<Expense> expenses = c1.list();
+		List<Expense> expenses = query.list(); 
 
 		/* commit */ 
 		session.getTransaction().commit();

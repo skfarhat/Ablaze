@@ -44,10 +44,16 @@ public class MonthPickerController implements Initializable {
 		date.set(date.get().minusMonths(1));
 		update(); 
 		monthLabel.setText(date.get().getMonth().toString());
+		
+		/* remove focus from the button and place it on label (shouldnt be able to do anything anw) */  
+		monthLabel.requestFocus(); 
 	}
 	@FXML private void rightButtonPressed() { 
 		date.set(date.get().plusMonths(1)); 
 		monthLabel.setText(date.get().getMonth().toString());
+		
+		/* remove focus from the button and place it on label (shouldnt be able to do anything anw) */
+		monthLabel.requestFocus(); 
 	}
 
 	public ObjectProperty<LocalDate> getDate() {

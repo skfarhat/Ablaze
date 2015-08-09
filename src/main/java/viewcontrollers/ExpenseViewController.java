@@ -74,7 +74,7 @@ public class ExpenseViewController implements Initializable {
 		}
 	};
 
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -153,19 +153,21 @@ public class ExpenseViewController implements Initializable {
 	}
 
 	private void filterArray() {
-
+		expensesTreeView.getRoot().getChildren().clear();
+		
+		logger.trace("filterArray"); 
 		HashMap<LocalDate, ArrayList<Expense>> map = new HashMap<>(100); 
 
 		for (Expense e : expensesList) {
 
-			ArrayList<Expense> ex ;//= new ArrayList<>(); 
+			ArrayList<Expense> array ;//= new ArrayList<>(); 
 			if (!map.containsKey(e.getDateIncurred())) { 
-				ex = new ArrayList<>(); 
-				map.put(e.getDateIncurred(), ex); 
+				array = new ArrayList<>(); 
+				map.put(e.getDateIncurred(), array); 
 			} else { 
-				ex = map.get(e.getDateIncurred()); 
+				array = map.get(e.getDateIncurred()); 
 			}
-			ex.add(e); 
+			array.add(e); 
 		}
 
 		for (Entry<LocalDate, ArrayList<Expense>> e: map.entrySet()) {
@@ -193,11 +195,11 @@ public class ExpenseViewController implements Initializable {
 		logger.debug("user: " + user + " readwriter: " + expenseReadWriter);
 		if (user != null && expenseReadWriter != null) {
 			logger.debug("inside the condition"); 
-//			expensesList = FXCollections.observableArrayList(expenseReadWriter.getAllExpensesForUser(user));
+			//			expensesList = FXCollections.observableArrayList(expenseReadWriter.getAllExpensesForUser(user));
 			Month month = monthPickerController.getDate().get().getMonth(); 
 			int year = monthPickerController.getDate().get().getYear(); 
 			expensesList = FXCollections.observableArrayList(expenseReadWriter.getExpensesForMonth(month, year, user)); 
-			
+
 			logger.debug("expensesList: " + expensesList.size());
 			filterArray(); 
 		}
