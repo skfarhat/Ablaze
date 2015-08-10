@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="250.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.popups.DuplicateExpenseViewController">
+   <children>
+      <AnchorPane prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addAnywayButtonPressed" prefWidth="80.0" text="Add anyway" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+               <font>
+                  <Font size="12.0" />
+               </font></Button>
+            <Button layoutX="120.0" layoutY="14.0" mnemonicParsing="false" onAction="#skipButtonPressed" prefWidth="60.0" text="Skip" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" />
+            <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefWidth="60.0" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Separator layoutX="14.0" layoutY="41.0" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="47.0" text="Date" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
+            <Label fx:id="dateLabel" layoutX="92.0" layoutY="14.0" prefWidth="170.0" text="Label" AnchorPane.topAnchor="50.0" />
+            <Label layoutX="14.0" layoutY="42.0" text="Amount" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="80.0" />
+            <Label fx:id="amountLabel" layoutX="92.0" layoutY="42.0" prefWidth="170.0" text="Label" AnchorPane.topAnchor="80.0" />
+            <Label layoutX="14.0" layoutY="150.0" text="Description" AnchorPane.topAnchor="140.0" />
+            <Label fx:id="descriptionLabel" layoutX="92.0" layoutY="150.0" prefWidth="170.0" text="Label" AnchorPane.topAnchor="140.0" />
+            <Label layoutX="14.0" layoutY="74.0" text="Account" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="110.0" />
+            <Label fx:id="accountLabel" layoutX="92.0" layoutY="74.0" prefWidth="170.0" text="Label" AnchorPane.topAnchor="110.0" />
+            <Label fx:id="messageLabel" layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="200.0" text="Message" AnchorPane.topAnchor="15.0" />
+            <Label fx:id="indexLabel" layoutX="253.0" layoutY="15.0" prefHeight="16.0" prefWidth="47.0" text="Label" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

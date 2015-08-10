@@ -21,13 +21,16 @@ TODO:
 * clean memos being saved in expenses (no date) 
 * typing enter on login view creates == proceedbutton
 * filter expenses to the last month 
+* finalise new expense 
+* figure out how the expenses adding will be managed
 
 ## PENDING
-* figure out how the expenses adding will be managed
-* finalise new expense 
+* add pound sterling to amount
+* smaller font for columns
+* save the last directory opened
+* save the last importCSV date, and ask user if he wishes to ignore all parsed expenses from before that date 
 * card info hidden at first but revealed on reveal button 
 * card name in NewCard.fxml
-* add pound sterling to amount
   Can save card information (securely) and display on need
 * Implement SettingsView --
 	> clear database
@@ -41,3 +44,38 @@ TODO:
 # NEW FEATURES
 * Add notes
 * add useful shortcuts -- make the sortcuts editable through a file 
+
+------------------------------------------------------------------------------------------
+== Adding Expenses procedure == 
+* when adding through .csv, don't question whether and expense is duplicated. This generally just cant happen
+
+* when the user is manually adding an expense. Check the added expense's date and amount. If this matches another in 
+the database, then we display a prompt for the user to confirm that this is not a duplicate expense. 
+
+ExpenseViewController evc: 
+
+evc.importCSV() --> Barclays.parse() --> List<Expenses> toAdd;
+getAllExpensesForUser() --> List<Expenses> userExpenses; 
+Predicate pred : // checks for equal date, amount and ## memo ##
+
+List<Expense> matches();
+Prompt the user for each (): 
+
+Prompt has the following look: 
+Message: "This expense is a suspected match of Expense<details>" 
+Button: Add anyway
+Button: Skip
+Button: Add All
+Button: Skip All
+Button: Cancel
+
+---------------------------------------------------------------------
+
+adding single expense()
+query database for same date and amount. If found, prompt user. 
+  
+
+
+
+
+

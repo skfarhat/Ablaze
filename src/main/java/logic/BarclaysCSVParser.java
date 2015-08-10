@@ -120,7 +120,7 @@ public class BarclaysCSVParser {
 			/* Create Expense */ 
 			Expense expense = new Expense();
 			expense.setAccount(cachedAccount);
-			expense.setValue(amount);
+			expense.setAmount(amount);
 			expense.setDescription(memo);
 			expense.setType(type);
 			expense.setDateIncurred(dateIncurred);

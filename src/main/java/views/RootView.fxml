@@ -52,7 +52,7 @@
 								</Menu>
 								<Menu mnemonicParsing="false" text="Tools">
 									<items>
-										<MenuItem mnemonicParsing="false" onAction="#addUser" text="Add User" />
+										<MenuItem mnemonicParsing="false" text="Add User" />
 										<MenuItem mnemonicParsing="false" text="Add Expense" />
 										<MenuItem mnemonicParsing="false" text="Change Password" />
 										<SeparatorMenuItem mnemonicParsing="false" />

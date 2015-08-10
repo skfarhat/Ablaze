@@ -11,14 +11,11 @@ import models.Expense;
 import models.User;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import util.PasswordManager;
@@ -240,7 +237,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 	}
 
 	@Override
-	public void saveExpenses(List<Expense> expenses) { 
+	public void createExpenses(List<Expense> expenses) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction(); 
@@ -258,7 +255,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 	 * @param expense
 	 */
 	@Override
-	public void saveExpense(Expense expense) { 
+	public void createExpense(Expense expense) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction(); 
@@ -278,8 +275,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		Query query = session.createQuery("from Expense where account.user.id = :user "
 				+ "and dateIncurred between :startDate and :endDate order by dateIncurred DESC");
-//		Criteria c1 = session.createCriteria(Expense.class);
-//		c1.add(Restrictions.eq("account.user.id", user.getId()));
+
 		LocalDate start 	= LocalDate.of(year, month.getValue(), 1);
 		LocalDate end 		= start.plusDays(start.lengthOfMonth() - 1); 
 
@@ -287,10 +283,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		query.setParameter("user", user.getId());
 		query.setParameter("startDate", start); 
 		query.setParameter("endDate", end); 
-//		c1.add(Restrictions.between("dateIncurred", start, end));
-//		c1.addOrder(Order.desc("dateIncurred"));
-		
-//		List<Expense> expenses = c1.list();
+
 		List<Expense> expenses = query.list(); 
 
 		/* commit */ 
@@ -298,10 +291,29 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		return expenses;
 	}
+	
+	public boolean expenseIsSuspectDuplicate(Expense expense) { 
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		Query query = session.createQuery("from Expense where "
+				+ "account.user.id = :user "
+				+ "and dateIncurred = :dateIncurred "
+				+ "and amount = :amount ");
+		query.setParameter("user", expense.getAccount().getUser().getId());
+		query.setParameter("dateIncurred", expense.getDateIncurred()); 
+		query.setParameter("amount", expense.getAmount()); 
+		
+		List<Expense> expenses = query.list();
+
+		/* commit */ 
+		session.getTransaction().commit();
+		return expenses.size() > 0; 
+	}
+	
 	// ================================================================================================
 	// ================================================================================================
-
-
 
 	// ============
 	// | CARD     |

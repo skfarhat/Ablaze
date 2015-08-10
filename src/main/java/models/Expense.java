@@ -48,7 +48,7 @@ public class Expense {
 	@Column(name = "subCategory")
 	private String subCategory;
 	
-	@Column(name = "value")
+	@Column(name = "amount")
 	private Double amount; 
 	
 	public void setAccount(Account account) {
@@ -60,7 +60,7 @@ public class Expense {
 	public void setDateIncurred(LocalDate dateIncurred) {
 		this.dateIncurred = dateIncurred;
 	}
-	public void setValue(Double value) {
+	public void setAmount(Double value) {
 		this.amount = value;
 	}
 	public void setCategory(String category) {

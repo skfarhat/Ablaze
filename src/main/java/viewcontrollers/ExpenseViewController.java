@@ -1,11 +1,15 @@
 package viewcontrollers;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.ObjectPropertyBase;
@@ -16,20 +20,31 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import logic.BarclaysCSVParser;
 import models.Account;
 import models.Expense;
 import models.User;
 
 import org.apache.log4j.Logger;
 
+import viewcontrollers.popups.DuplicateExpenseViewController;
 import controls.MonthPickerController;
+import db.AccountReader;
 import db.ExpenseReadWriter;
+import exceptions.NullAccountException;
 
 /**
  * 
@@ -50,16 +65,15 @@ public class ExpenseViewController implements Initializable {
 	@FXML private TreeTableColumn<Expense, String> 		subCategoryColumn;
 	@FXML private TreeTableColumn<Expense, String> 		accountColumn;
 
+	@FXML private MonthPickerController monthPickerController;
+
 	/* Data Source */ 
 	private ObservableList<Expense> expensesList; 
 
 	/* the below should be set by the parent controller */ 
-	// --> expensesReadWriter
 	private ExpenseReadWriter expenseReadWriter; 
 	private User user; 
 	private RightPaneSetter rightPaneSetter; 
-
-	@FXML private MonthPickerController monthPickerController; 
 
 	private ObjectPropertyBase<LocalDate> monthPicker = new ObjectPropertyBase<LocalDate>() {
 
@@ -154,7 +168,7 @@ public class ExpenseViewController implements Initializable {
 
 	private void filterArray() {
 		expensesTreeView.getRoot().getChildren().clear();
-		
+
 		logger.trace("filterArray"); 
 		HashMap<LocalDate, ArrayList<Expense>> map = new HashMap<>(100); 
 
@@ -185,22 +199,15 @@ public class ExpenseViewController implements Initializable {
 		}
 
 	}
-	@FXML public void refresh() {
-		logger.trace("refresh() - trace"); 
-		logger.debug("refresh() - debug"); 
-		logger.info("refresh() - info"); 
-		logger.warn("refresh() - warn"); 
-		logger.error("refresh() - error"); 
 
-		logger.debug("user: " + user + " readwriter: " + expenseReadWriter);
+	@FXML public void refresh() {
+
 		if (user != null && expenseReadWriter != null) {
-			logger.debug("inside the condition"); 
 			//			expensesList = FXCollections.observableArrayList(expenseReadWriter.getAllExpensesForUser(user));
 			Month month = monthPickerController.getDate().get().getMonth(); 
 			int year = monthPickerController.getDate().get().getYear(); 
 			expensesList = FXCollections.observableArrayList(expenseReadWriter.getExpensesForMonth(month, year, user)); 
 
-			logger.debug("expensesList: " + expensesList.size());
 			filterArray(); 
 		}
 
@@ -210,8 +217,6 @@ public class ExpenseViewController implements Initializable {
 			rightPaneSetter.showAddExpenseOnRightPane(); 
 		}
 	}
-
-
 	@FXML private void leftButtonPressed() { 
 		logger.debug("left button presed on month picker");
 	}
@@ -219,12 +224,81 @@ public class ExpenseViewController implements Initializable {
 		logger.debug("right button presed on month picker");
 	}
 
-	private void leftButtonMonthPicker() { 
+	/**
+	 * 
+	 * @param file file to parse
+	 * @param actReader is passed to BarclaysCSVParser
+	 */
+	public void importCSV(File file, AccountReader actReader) { 
+		try {
+			
+			/* will hold expenses that are non-duplicates */
+			List<Expense> expenses = new ArrayList<>(10); 
 
-	}
-	private void rightButtonMonthPicker() { 
+			/* save in database */ 
+			List<Expense> suspectDuplicates = new ArrayList<>(); 
+			
+			/* divide expenses between suspect duplicates and non-suspect */ 
+			List<Expense> temp = BarclaysCSVParser.parse(actReader, file.getPath());
+			for (int i = 0; i < temp.size(); i++) { 
+				Expense e = temp.get(i); 
+				
+				/* if is suspect duplicate */ 
+				if (expenseReadWriter.expenseIsSuspectDuplicate(e)) { 
+					suspectDuplicates.add(e);
+				} else { 
+					expenses.add(e); 
+				}
+			}
 
+			if (suspectDuplicates.size() > 0) { 
+				logger.debug("suspect duplicates");
+				FXMLLoader loader = new FXMLLoader(); 
+				loader.setLocation(ExpenseViewController.class.getResource("../views/popups/DuplicateExpense.fxml"));
+				AnchorPane pane; 
+				try { 
+					pane = (AnchorPane) loader.load(); 
+					DuplicateExpenseViewController controller = loader.getController();
+					Stage stage = new Stage(); 
+					Scene scene = new Scene(pane); 
+					stage.setScene(scene);
+					controller.setStage(stage);
+					controller.setWriter(expenseReadWriter);
+					controller.setExpenses(suspectDuplicates);
+					stage.showAndWait();
+
+				} catch(IOException io) {
+					logger.error(io.getMessage()); 
+					io.printStackTrace();
+				}
+			}
+
+			
+			logger.debug("after"); 
+			logger.debug("expenses list: " + temp.size());
+			logger.debug("duplicates list: " + suspectDuplicates.size());
+			
+			/* create all expenses */ 
+			expenseReadWriter.createExpenses(expenses);
+
+			/* refresh table */  
+			refresh(); 
+
+		} catch (NullAccountException exc) {
+			String mess = "Create a new account ?"; 
+			Alert alert = new Alert(AlertType.CONFIRMATION, mess, ButtonType.YES, ButtonType.NO); 
+			Optional<ButtonType> result = alert.showAndWait(); 
+
+			if (result.get() == ButtonType.YES) {
+				rightPaneSetter.showAddAccountOnRightPane(exc.getSortCode(), exc.getAccountNumber().toString());
+			}
+			String message = exc.getMessage(); 
+			logger.error(message);
+		} catch (IOException ioExc) { 
+			ioExc.printStackTrace();
+		}
 	}
+
 
 	public void setRightPaneSetter(RightPaneSetter rightPaneSetter) {
 		this.rightPaneSetter = rightPaneSetter;
