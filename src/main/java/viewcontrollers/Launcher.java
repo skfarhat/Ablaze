@@ -8,9 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logic.AblazeConfiguration;
 import logic.CategoriesManager;
+import logic.CurrenciesManager;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 import db.SQLManager;
 
@@ -24,6 +27,7 @@ public class Launcher extends Application {
 	static {
 		BasicConfigurator.configure(); 
 	}
+	private final static Logger logger = Logger.getLogger(Launcher.class);
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -45,10 +49,17 @@ public class Launcher extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show(); 
 	}
-
-	
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-		CategoriesManager.initialise(); 
+		
+		/* loads configuration file */ 
+		AblazeConfiguration.initialise();
+		
+		/* makes sure currencies are in the database */ 
+		CurrenciesManager.initialise();
+		
+//		CategoriesManager.initialise();
+		
+		
 		launch(args); 
 	}
 }

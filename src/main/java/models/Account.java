@@ -48,6 +48,10 @@ public class Account {
 	@JoinColumn(name = "user", nullable = false)
 	private User user;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "currency", nullable = false)
+	private Currency currency; 
+	
 	public Integer getAccountNumber() {
 		return accountNumber;
 	}
@@ -57,14 +61,14 @@ public class Account {
 	public Set<Card> getCards() {
 		return cards;
 	}
-//	public LocalDate getDateCreated() {
-//		return dateCreated;
-//	}
 	public String getName() {
 		return name;
 	}
 	public User getUser() {
 		return user;
+	}
+	public Currency getCurrency() {
+		return currency;
 	}
 	
 	public void setSortCode(String sortCode) {
@@ -78,6 +82,9 @@ public class Account {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 	
 	@Override

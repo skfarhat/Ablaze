@@ -21,12 +21,12 @@ TODO:
 * clean memos being saved in expenses (no date) 
 * typing enter on login view creates == proceedbutton
 * filter expenses to the last month 
-* finalise new expense 
+* finalise new expense 2
 * figure out how the expenses adding will be managed
+* add currencies to database
 
 ## PENDING
 * add pound sterling to amount
-* smaller font for columns
 * save the last directory opened
 * save the last importCSV date, and ask user if he wishes to ignore all parsed expenses from before that date 
 * card info hidden at first but revealed on reveal button 
@@ -41,7 +41,11 @@ TODO:
 * total from all accounts (maybe this belongs in stats ?)
 * add tags to expenses 
 
+## STYLE
+* smaller font for columns
+
 # NEW FEATURES
+* Add Health section 
 * Add notes
 * add useful shortcuts -- make the sortcuts editable through a file 
 

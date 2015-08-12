@@ -80,35 +80,6 @@ public class RootViewController implements Initializable, RightPaneSetter {
 		log.warn("addCard() function not implemented"); 
 	}
 
-//	@FXML private void addUser() {
-//		log.trace("addUser");
-//
-//		final String filename = "../views/popups/NewUser.fxml"; 
-//		FXMLLoader loader = new FXMLLoader(); 
-//		loader.setLocation(Launcher.class.getResource(filename));
-//		AnchorPane rootPane;
-//		try {
-//			rootPane = loader.load();
-//			NewUserController controller =  loader.getController(); 
-//			Scene scene = new Scene(rootPane);
-//			Stage newUserStage = new Stage(); 
-//
-//			/* when the user selects cancel*/ 
-//			controller.getCancelButtonProperty().addListener(
-//					(change, oldVal, newVal) -> {
-//						/* close the stage */
-//						newUserStage.close();
-//					});
-//
-//			newUserStage.setScene(scene);
-//			newUserStage.showAndWait(); 
-//
-//		} catch (IOException e) {
-//			log.error("Porblem creating user");
-//		}
-//
-//	}
-
 	
 	@Override
 	public void showAddCardOnRightPane() { 
@@ -147,10 +118,9 @@ public class RootViewController implements Initializable, RightPaneSetter {
 			loader.setLocation(RootViewController.class.getResource(filename));
 			AnchorPane rootPane = loader.load(); 
 			NewExpenseViewController controller = loader.getController(); 
+			
 			/* configure the controller
-			 * call autofillTextFields at the end
-			 */
-//			controller.setAccountReader(sqlManager);
+			 * call autofillTextFields at the end */
 			controller.setWriter(sqlManager);
 			controller.setExpenseReader(sqlManager);
 			controller.setRightPaneSetter(this);
@@ -160,6 +130,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 			/* change the displayed pane on the right side */ 
 			rightPane.getChildren().clear(); 
 			rightPane.getChildren().add(rootPane);
+			
 		} catch (IOException io) { 
 			io.printStackTrace();
 			log.error(String.format("Problem loading %s", filename));

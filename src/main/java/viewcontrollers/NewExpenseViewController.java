@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +18,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import logic.CurrenciesManager;
 import models.Account;
+import models.Currency;
 import models.Expense;
 import models.User;
 
@@ -36,7 +40,7 @@ public class NewExpenseViewController implements Initializable {
 
 
 	/** Log4j */ 
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private final static Logger logger = Logger.getLogger(NewExpenseViewController.class);
 
 	private ExpenseWriter expenseWriter; 
@@ -47,7 +51,7 @@ public class NewExpenseViewController implements Initializable {
 	@FXML private TextField nameTextField; 
 
 
-	@FXML private ChoiceBox<String> currencyChoiceBox; 
+	@FXML private ChoiceBox<Currency> currencyChoiceBox; 
 	@FXML private ChoiceBox<String> categoryChoiceBox; 
 	@FXML private ChoiceBox<String> subCategoryChoiceBox; 
 	@FXML private DatePicker datePicker; 
@@ -70,9 +74,6 @@ public class NewExpenseViewController implements Initializable {
 
 	@FXML private void confirmButtonPressed() {
 
-		
-		// TODO: confirm if is duplicate
-		
 		//		categoryChoiceBox.getSelectionModel().getSelectedItem()
 		final String category = categoryChoiceBox.getSelectionModel().getSelectedItem();//.toString();  
 		final String subCategory = subCategoryChoiceBox.getSelectionModel().getSelectedItem();//.toString();
@@ -123,6 +124,22 @@ public class NewExpenseViewController implements Initializable {
 
 		//TODO: fill categories options 
 		accountChoiceBox.setItems(FXCollections.observableArrayList(user.getAccounts()));
+		
+		currencyChoiceBox.setConverter(new StringConverter<Currency>() {
+			
+			@Override
+			public String toString(Currency object) {
+				return object.getSymbol();  
+			}			
+			@Override
+			public Currency fromString(String string) {
+				/* not needed */ 
+				return null;
+			}
+		});		
+		currencyChoiceBox.setItems(FXCollections.observableArrayList(CurrenciesManager.getCurrencies()));
+		if (currencyChoiceBox.getItems().size() > 0)
+			currencyChoiceBox.getSelectionModel().select(0);
 	}
 
 	@FXML private void cancelButtonPressed() { 

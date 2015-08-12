@@ -7,6 +7,7 @@ import java.util.List;
 
 import models.Account;
 import models.Card;
+import models.Currency;
 import models.Expense;
 import models.User;
 
@@ -25,7 +26,7 @@ import util.PasswordManager;
  * Class responsible for reads and writes to the SQL database
  * @author Sami
  */
-public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseReadWriter, CardReadWriter {
+public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseReadWriter, CardReadWriter, CurrencyReadWriter {
 
 	/** Log4j */ 
 	@SuppressWarnings("unused")
@@ -330,5 +331,21 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		/* commit */ 
 		session.getTransaction().commit();
+	}
+	@Override
+	public void createCurrencies(List<Currency> list) {
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction(); 
+		
+		for (Currency c : list) {
+			Query query = session.createQuery("from Currency where code=:code"); 
+			query.setParameter("code", c.getCode()); 
+			if (query.list().size() > 0)
+				continue; 
+			else 
+				session.save(c); 
+		}
+		session.getTransaction().commit(); 
 	}
 }

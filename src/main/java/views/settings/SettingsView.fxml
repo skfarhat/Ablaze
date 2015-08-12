@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.settings.SettingsViewController">
+   <children>
+      <TabPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <tabs>
+          <Tab text="General">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+          <Tab text="Users">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="298.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Full Name" />
+                            <TableColumn prefWidth="75.0" text="Accounts #" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Database">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backupButtonPressed" text="Backup " />
+                        <Label fx:id="lastBackupLabel" layoutX="104.0" layoutY="19.0" prefHeight="16.0" prefWidth="181.0" text="Last backup on 01/01/2015" />
+                        <Button layoutX="14.0" layoutY="69.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="115.0" text="Clear Database" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

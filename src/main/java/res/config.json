@@ -1,0 +1,38 @@
+{
+    "tags": {
+        "Groceries": [
+            "Tesco",
+            "Sainsburrys",
+            "COOP"
+        ],
+        "Transport": [
+            "GREATER ANGLIA"
+        ],
+        "Clothes": [
+            "PRIMARK",
+            "SPORTSDIRECT"
+        ],
+        "Food": [
+            "WAGAMAMA",
+            "FIVE GUYS",
+            "BURGER KING"
+        ]
+    },
+    "currencies": [
+        {
+            "name": "British Pound",
+            "symbol": "£",
+            "code": "GBP"
+        },
+        {
+            "name": "American Dollar",
+            "symbol": "$",
+            "code": "USD"
+        },
+        {
+            "name": "Lebanese Pound",
+            "symbol": "L.L",
+            "code": "LBP"
+        }
+    ]
+}
