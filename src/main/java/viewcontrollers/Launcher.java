@@ -14,8 +14,6 @@ import logic.CurrenciesManager;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
-import util.CryptManager;
-import util.PasswordManager;
 import db.SQLManager;
 
 /**
@@ -28,6 +26,7 @@ public class Launcher extends Application {
 	static {
 		BasicConfigurator.configure(); 
 	}
+	/** Log4j */ 
 	private final static Logger logger = Logger.getLogger(Launcher.class);
 	
 	@Override
@@ -51,21 +50,7 @@ public class Launcher extends Application {
 		primaryStage.show(); 
 	}
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-		
-//		String key = PasswordManager.getHash("123").substring(0, 16); 
-//		
-//		String data = "4658593297256001"; 
-//		
-//		try {
-//			String enc = CryptManager.encrypt(data, key);
-//			logger.debug(String.format("encoded: %s", enc));
-//			String dec = CryptManager.decrypt(data, key); 
-//			logger.debug(String.format("decoded: %s", dec)); 
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
-		
+
 		/* loads configuration file */ 
 		AblazeConfiguration.initialise();
 		

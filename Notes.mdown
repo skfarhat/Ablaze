@@ -24,6 +24,7 @@ TODO:
 * figure out how the expenses adding will be managed
 * add currencies to database
 * add pound sterling to amount
+* save the last directory opened
 
 ## BUG
 * after creating an account, the card creator's account choicebox is not refreshed
@@ -31,7 +32,6 @@ TODO:
 ## PENDING
 * remove currency from expense - only related to account 
 * adjust the rest of the application to hibernate-jasypt
-* save the last directory opened
 * save the last importCSV date, and ask user if he wishes to ignore all parsed expenses from before that date 
 * card info hidden at first but revealed on reveal button 
 * card name in NewCard.fxml

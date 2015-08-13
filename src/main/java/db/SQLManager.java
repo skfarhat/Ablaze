@@ -54,6 +54,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 					new StandardServiceRegistryBuilder()
 			.applySettings(config.getProperties()).build();
 
+			// FIXME: remove hardcoded values  
 			StandardPBEStringEncryptor myEncryptor = new StandardPBEStringEncryptor();
 			myEncryptor.setPassword("123");
 			HibernatePBEEncryptorRegistry registry = HibernatePBEEncryptorRegistry.getInstance();

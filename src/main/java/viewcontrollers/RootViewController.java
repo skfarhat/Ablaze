@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import logic.AblazeConfiguration;
 import models.User;
 
 import org.apache.log4j.Logger;
@@ -26,7 +27,7 @@ import db.SQLManager;
 public class RootViewController implements Initializable, RightPaneSetter {
 
 	/** Log4j */ 
-	private static final Logger log = Logger.getLogger(RootViewController.class);
+	private static final Logger logger = Logger.getLogger(RootViewController.class);
 
 	/** the logged-on user */ 
 	private User user; 
@@ -64,20 +65,25 @@ public class RootViewController implements Initializable, RightPaneSetter {
 
 	@FXML private void importCSV() { 
 		FileChooser fc = new FileChooser();
-		//TODO: generalise default directory
-		fc.setInitialDirectory(new File("/Users/Sami/Desktop/"));
+		
+		String rootDir = AblazeConfiguration.getRootDirectory(); 
+		logger.debug("rootDir: " + rootDir); 
+		fc.setInitialDirectory(new File(rootDir));
 		fc.setSelectedExtensionFilter(new ExtensionFilter("Comma-separated-file", ".csv")); 
 		File chosenFile = fc.showOpenDialog(stage);
 		
 		/* if operation is aborted */ 
 		if (chosenFile == null) 
-			return; 
+			return;
+		
+		/* update the last opened file */ 
+		AblazeConfiguration.setLastOpened(chosenFile.getParent());
 		
 		expenseViewController.importCSV(chosenFile, sqlManager);
 	}
 
 	@FXML private void addCard() {
-		log.warn("addCard() function not implemented"); 
+		logger.warn("addCard() function not implemented"); 
 	}
 
 	
@@ -104,7 +110,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 			rightPane.getChildren().add(rootPane);
 		} catch (IOException io) { 
 			io.printStackTrace();
-			log.error(String.format("Problem loading %s", filename));
+			logger.error(String.format("Problem loading %s", filename));
 		}
 	}
 	
@@ -133,7 +139,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 			
 		} catch (IOException io) { 
 			io.printStackTrace();
-			log.error(String.format("Problem loading %s", filename));
+			logger.error(String.format("Problem loading %s", filename));
 		}
 	}
 	
@@ -161,7 +167,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 			rightPane.getChildren().add(rootPane);
 		} catch (IOException io) { 
 			io.printStackTrace();
-			log.error(String.format("Problem loading %s", filename));
+			logger.error(String.format("Problem loading %s", filename));
 		}
 	}
 	@Override
