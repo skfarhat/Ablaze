@@ -6,20 +6,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40"
-fx:controller="viewcontrollers.NewAccountController">
+<AnchorPane prefHeight="400.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.NewAccountController">
    <children>
       <TextField fx:id="sortCodeTextField" alignment="CENTER" layoutX="19.0" layoutY="125.0" promptText="Sort-Code" />
       <TextField fx:id="accountNumberTextField" alignment="CENTER" layoutX="19.0" layoutY="173.0" promptText="Account Number" />
       <TextField fx:id="nameTextField" alignment="CENTER" layoutX="19.0" layoutY="78.0" promptText="Name" />
-      <ChoiceBox fx:id="userChoiceBox" disable="true" layoutX="19.0" layoutY="229.0" prefHeight="26.0" prefWidth="163.0" />
-      <Button layoutX="124.0" layoutY="353.0" mnemonicParsing="false" text="Confirm" onAction="#confirmButtonPressed"/>
-      <Button layoutX="14.0" layoutY="353.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="Cancel" onAction="#cancelButtonPressed">
+      <ChoiceBox fx:id="userChoiceBox" disable="true" layoutX="19.0" layoutY="276.0" prefHeight="26.0" prefWidth="163.0" />
+      <Button layoutX="124.0" layoutY="353.0" mnemonicParsing="false" onAction="#confirmButtonPressed" text="Confirm" />
+      <Button layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="26.0" prefWidth="58.0" text="Cancel">
          <font>
             <Font size="12.0" />
          </font>
       </Button>
       <Label layoutX="54.0" layoutY="14.0" text="Create Account" />
+      <ChoiceBox fx:id="currencyChoiceBox" layoutX="19.0" layoutY="226.0" prefHeight="26.0" prefWidth="163.0" />
    </children>
 </AnchorPane>

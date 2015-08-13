@@ -1,7 +1,6 @@
 # Notes 
 
-add calendar plugin or something
-add settings pane - includes manage users (change password, delete user..) 
+
 
 automatic feeds from barclays:  
 http://www.freeagent.com/central/automated-bank-feeds-from-barclays
@@ -24,9 +23,14 @@ TODO:
 * finalise new expense 2
 * figure out how the expenses adding will be managed
 * add currencies to database
+* add pound sterling to amount
+
+## BUG
+* after creating an account, the card creator's account choicebox is not refreshed
 
 ## PENDING
-* add pound sterling to amount
+* remove currency from expense - only related to account 
+* adjust the rest of the application to hibernate-jasypt
 * save the last directory opened
 * save the last importCSV date, and ask user if he wishes to ignore all parsed expenses from before that date 
 * card info hidden at first but revealed on reveal button 
@@ -40,6 +44,7 @@ TODO:
 * application icon [deployment phase]
 * total from all accounts (maybe this belongs in stats ?)
 * add tags to expenses 
+* add calendar plugin or something
 
 ## STYLE
 * smaller font for columns

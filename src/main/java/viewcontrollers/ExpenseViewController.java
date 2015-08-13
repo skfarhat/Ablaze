@@ -129,9 +129,13 @@ public class ExpenseViewController implements Initializable {
 				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
-						Double amount = p.getValue().getValue().getAmount(); 
-						if (amount != null)
-							return new SimpleStringProperty(amount.toString());
+						Expense e = p.getValue().getValue(); 
+						Double amount = e.getAmount(); 
+						
+						if (amount != null) { 
+							String str = String.format("%s %.2f", e.getAccount().getCurrency().getSymbol(), amount); 
+							return new SimpleStringProperty(str); 
+						}
 						else 
 							return new SimpleStringProperty("");
 

@@ -28,11 +28,14 @@ public class CurrenciesManager {
 	public static void initialise() throws IOException {
 		if (AblazeConfiguration.isInitialized()) {
 			logger.debug("CurrenciesManager intialise()"); 
-			List<Currency> currencies = AblazeConfiguration.getCurrencies();
+			List<Currency> transientCurrencies = AblazeConfiguration.getCurrencies();
 
 			/* create currencies */ 
-			SQLManager.getSQL().createCurrencies(currencies);
-
+			SQLManager.getSQL().createCurrencies(transientCurrencies);
+			
+			/* fetch created currencies */ 
+			List<Currency> currencies = SQLManager.getSQL().getAllCurrencies();
+			
 			/* save to class variable */ 
 			CurrenciesManager.currencies = new ArrayList<Currency>(currencies); 
 		}

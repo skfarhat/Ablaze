@@ -12,4 +12,7 @@ import models.Currency;
 public interface CurrencyReadWriter {
 	
 	public void createCurrencies(List<Currency> list);
+	
+	public List<Currency> getAllCurrencies(); 
+	
 }

@@ -15,11 +15,27 @@
 	</properties>
 
 	<dependencies>
-	<!-- 	<dependency>
+
+		<dependency>
+			<!-- Needed for hibernate crypt -->
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-hibernate4</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<dependency>
+			<!-- Needed for hibernate crypt -->
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
+		<dependency>
+			<!-- Used for some crypts. If jasypt is finally used this can be removed -->
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
-		</dependency> -->
+			<version>1.9</version>
+		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

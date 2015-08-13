@@ -12,8 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import util.LocalDateConverter;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.jasypt.hibernate4.type.EncryptedStringType;
 
+import util.LocalDateConverter;
 
 /**
  * 
@@ -21,6 +26,18 @@ import util.LocalDateConverter;
  *
  */
 @Entity
+
+@TypeDefs({
+	@TypeDef(
+			name="encryptedString", 
+			typeClass=EncryptedStringType.class, 
+			parameters= {
+				@Parameter(name="encryptorRegisteredName", value="myHibernateStringEncryptor")
+			}
+			)
+})
+
+
 @Table (name="Card")
 public class Card {
 
@@ -30,21 +47,22 @@ public class Card {
 
 	@Column(name = "name")
 	private String name; 
- 	
- 	@ManyToOne(fetch = FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account", nullable = false)
 	private Account account;  
- 	
- 	@Column(name = "cardType")
- 	private String cardType;
- 	
- 	@Column(name = "cardNumber")
+
+	@Column(name = "cardType")
+	private String cardType;
+
+	@Column(name = "cardNumber")
+	@Type(type="encryptedString")
 	private String cardNumber; 
- 	
- 	@Column(name = "expiryDate")
-    @Convert(converter = LocalDateConverter.class)
+
+	@Column(name = "expiryDate")
+	@Convert(converter = LocalDateConverter.class)
 	private LocalDate expiryDate;
-	
+
 	@Column(name = "securityCode")
 	private String securityCode; 
 
@@ -66,7 +84,7 @@ public class Card {
 	public LocalDate getExpiryDate() {
 		return expiryDate;
 	}
-	
+
 	public void setCardType(String cardType) {
 		this.cardType = cardType;
 	}

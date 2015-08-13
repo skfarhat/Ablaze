@@ -18,6 +18,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.hibernate4.encryptor.HibernatePBEEncryptorRegistry;
 
 import util.PasswordManager;
 
@@ -51,6 +53,12 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 			ServiceRegistry serviceRegistry =
 					new StandardServiceRegistryBuilder()
 			.applySettings(config.getProperties()).build();
+
+			StandardPBEStringEncryptor myEncryptor = new StandardPBEStringEncryptor();
+			myEncryptor.setPassword("123");
+			HibernatePBEEncryptorRegistry registry = HibernatePBEEncryptorRegistry.getInstance();
+			registry.registerPBEStringEncryptor("myHibernateStringEncryptor", myEncryptor);
+
 			return config.buildSessionFactory(serviceRegistry); 
 		}
 		catch (Throwable ex) {
@@ -59,6 +67,9 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 			throw new ExceptionInInitializerError(ex);
 		}
 	}
+
+	// ================================================================================================
+	// ================================================================================================
 
 	// ============
 	// |   USER   |
@@ -130,7 +141,6 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		session.getTransaction().commit();
 	}
-
 
 	// ================================================================================================
 	// ================================================================================================
@@ -267,7 +277,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		/* commit */ 
 		session.getTransaction().commit();
 	}
-	
+
 	@Override
 	public List<Expense> getExpensesForMonth(Month month, int year, User user) {
 		/* begin transaction */ 
@@ -292,7 +302,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 
 		return expenses;
 	}
-	
+
 	public boolean expenseIsSuspectDuplicate(Expense expense) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
@@ -305,21 +315,21 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		query.setParameter("user", expense.getAccount().getUser().getId());
 		query.setParameter("dateIncurred", expense.getDateIncurred()); 
 		query.setParameter("amount", expense.getAmount()); 
-		
+
 		List<Expense> expenses = query.list();
 
 		/* commit */ 
 		session.getTransaction().commit();
 		return expenses.size() > 0; 
 	}
-	
+
 	// ================================================================================================
 	// ================================================================================================
 
 	// ============
 	// | CARD     |
 	// ============
-	
+
 	@Override
 	public void createCard(Card card) {
 		/* begin transaction */ 
@@ -332,12 +342,17 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		/* commit */ 
 		session.getTransaction().commit();
 	}
+
+	// ==============
+	// | CURRENCIES  |
+	// ==============
+
 	@Override
 	public void createCurrencies(List<Currency> list) {
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction(); 
-		
+
 		for (Currency c : list) {
 			Query query = session.createQuery("from Currency where code=:code"); 
 			query.setParameter("code", c.getCode()); 
@@ -348,4 +363,21 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		}
 		session.getTransaction().commit(); 
 	}
+
+	@Override
+	public List<Currency> getAllCurrencies() {
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		Query query = session.createQuery("from Currency ");
+
+		List<Currency> currencyList = query.list();
+
+		/* commit */ 
+		session.getTransaction().commit();
+
+		return currencyList;
+	}
+
 }
