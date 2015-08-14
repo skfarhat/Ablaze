@@ -15,8 +15,7 @@
 			</font>
 		</Label>
 		<TextField fx:id="descriptionTextField" layoutX="12.0" layoutY="47.0" prefHeight="26.0" prefWidth="165.0" promptText="Title" />
-		<TextField fx:id="amountTextField" layoutX="13.0" layoutY="80.0" prefHeight="26.0" prefWidth="94.0" promptText="Amount" />
-		<ChoiceBox fx:id="currencyChoiceBox" layoutX="119.0" layoutY="80.0" prefHeight="26.0" prefWidth="57.0" />
+		<TextField fx:id="amountTextField" layoutX="56.0" layoutY="80.0" prefHeight="26.0" prefWidth="117.0" promptText="Amount" />
 		<ChoiceBox fx:id="categoryChoiceBox" layoutX="13.0" layoutY="135.0" prefWidth="150.0" />
 		<ChoiceBox fx:id="subCategoryChoiceBox" layoutX="13.0" layoutY="191.0" prefWidth="150.0" />
 		<DatePicker fx:id="datePicker" layoutX="17.0" layoutY="248.0" prefHeight="26.0" prefWidth="109.0" />
@@ -32,5 +31,6 @@
 		</TableView>
       <Button layoutX="151.0" layoutY="627.0" mnemonicParsing="false" onAction="#confirmButtonPressed" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Button layoutX="26.0" layoutY="627.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Label fx:id="currencyLabel" layoutX="13.0" layoutY="85.0" prefHeight="16.0" prefWidth="38.0" text="\$$" />
 	</children>
 </AnchorPane>

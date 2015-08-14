@@ -17,8 +17,6 @@
 						<fx:include fx:id="monthPicker" source="controls/MonthPickerView.fxml" />
 					</children>
 				</AnchorPane>
-				<!-- <MonthPicker fx:id="monthPicker" layoutX="300.0"
-					layoutY="12.0" /> -->
 			</children>
 		</AnchorPane>
 		<TreeTableView fx:id="expensesTreeView" showRoot="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
@@ -27,8 +25,8 @@
 				<TreeTableColumn fx:id="amountColumn" prefWidth="75.0" text="Amount" />
 				<TreeTableColumn fx:id="categoryColumn" prefWidth="100.0" text="Category" />
 				<TreeTableColumn fx:id="subCategoryColumn" prefWidth="100.0" text="SubCategory" />
-				<TreeTableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description" />
 				<TreeTableColumn fx:id="accountColumn" prefWidth="100.0" text="Account" />
+				<TreeTableColumn fx:id="descriptionColumn" prefWidth="350.0" text="Description" />
 			</columns>
 		</TreeTableView>
 	</children>
