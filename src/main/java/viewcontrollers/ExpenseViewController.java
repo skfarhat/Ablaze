@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -155,17 +154,12 @@ public class ExpenseViewController implements Initializable {
 					}
 				});
 
-		monthPicker.bind(monthPickerController.getDate()); 
-		monthPicker.addListener(new ChangeListener<LocalDate>() {
-
-			@Override
-			public void changed(
-					ObservableValue<? extends LocalDate> observable,
-					LocalDate oldValue, LocalDate newValue) {
-				logger.debug("detected the change !"); 
-				refresh(); 
-			}
+		monthPicker.bind(monthPickerController.getDate());
+		monthPickerController.setDelegate(() -> {
+			refresh(); 
 		});
+
+		
 		refresh(); 
 		filterArray(); 
 	}
