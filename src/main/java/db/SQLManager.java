@@ -28,7 +28,8 @@ import util.PasswordManager;
  * Class responsible for reads and writes to the SQL database
  * @author Sami
  */
-public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseReadWriter, CardReadWriter, CurrencyReadWriter {
+public class SQLManager implements UserReadWriter, AccountReadWriter, 
+ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader {
 
 	/** Log4j */ 
 	@SuppressWarnings("unused")
@@ -379,6 +380,32 @@ public class SQLManager implements UserReadWriter, AccountReadWriter, ExpenseRea
 		session.getTransaction().commit();
 
 		return currencyList;
+	}
+	
+	
+	@Override
+	public List<Object[]> netExpensesByMonth() {
+		
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		final String sql = "SELECT DATE_FORMAT(dateIncurred,'%Y-%m') as date, ROUND(SUM(amount),2) "
+				+ "FROM Expense "
+				+ "WHERE amount< 0 "
+				+ "GROUP BY Year(dateIncurred), Month(dateIncurred) "
+				+ "ORDER BY dateIncurred DESC" ;
+		
+		Query query = session.createSQLQuery(sql); 
+		List<Object[]> results = query.list();
+		
+//		logger.debug("listing results"); 
+//		for (Object[] o : results) {
+//			logger.debug(o.length); 
+//			logger.debug(o[0] + " " + o[1]); 
+//		}
+		session.getTransaction().commit();
+		return results;  
 	}
 
 }

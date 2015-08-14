@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.StatsViewController">
+	<children>
+		<AnchorPane layoutX="514.0" layoutY="3.0" AnchorPane.rightAnchor="0.0">
+			<children>
+				<fx:include fx:id="monthPicker" source="controls/MonthPickerView.fxml" />
+			</children>
+		</AnchorPane>
+		<AnchorPane layoutX="15.0" layoutY="32.0" prefHeight="97.0" prefWidth="200.0" style="-fx-border-color: black;">
+			<children>
+				<Label layoutX="9.0" layoutY="13.0" text="Total In" />
+				<Label fx:id="totalInLabel" layoutX="143.0" layoutY="13.0" text="Label" />
+				<Label layoutX="9.0" layoutY="43.0" text="Total Out" />
+				<Label fx:id="totalOutLabel" layoutX="143.0" layoutY="43.0" text="Label" />
+				<Label layoutX="9.0" layoutY="67.0" text="Total Out" />
+				<Label fx:id="netLabel" layoutX="143.0" layoutY="67.0" text="Label" />
+			</children>
+		</AnchorPane>
+		<AnchorPane layoutX="14.0" layoutY="145.0" style="-fx-border-color: black;">
+			<children>
+				<PieChart fx:id="categoryPieChart" layoutX="-95.0" layoutY="-75.0" prefHeight="295.0" prefWidth="370.0" title="Categories" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+			</children>
+		</AnchorPane>
+		<AnchorPane layoutX="402.0" layoutY="66.0" prefHeight="456.0" prefWidth="612.0">
+			<children>
+				<BarChart fx:id="expensesBarChart" layoutX="43.0" layoutY="28.0" title="Month Expenses">
+					<xAxis>
+						<CategoryAxis side="BOTTOM" />
+					</xAxis>
+					<yAxis>
+						<NumberAxis side="LEFT" />
+					</yAxis>
+				</BarChart>
+			</children>
+		</AnchorPane>
+	</children>
+</AnchorPane>

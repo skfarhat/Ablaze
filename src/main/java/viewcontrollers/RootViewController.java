@@ -45,6 +45,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 
 	@FXML ExpenseViewController expenseViewController; 
 	@FXML AccountViewController accountViewController; 
+	@FXML StatsViewController 	statsViewController; 
 	@FXML LoggerViewController 	loggerViewController; 
 
 	public RootViewController() {}
@@ -61,6 +62,14 @@ public class RootViewController implements Initializable, RightPaneSetter {
 		accountViewController.setRightPaneSetter(this);
 		accountViewController.setUser(user);
 		accountViewController.refresh();
+		
+		
+		statsViewController.setUser(user);
+		statsViewController.setExpenseReader(sqlManager);
+		statsViewController.setStatsReader(sqlManager);
+		statsViewController.setAccountReader(sqlManager);
+		statsViewController.refresh();
+		
 	}
 
 	@FXML private void importCSV() { 

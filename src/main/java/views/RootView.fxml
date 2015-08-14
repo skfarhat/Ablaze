@@ -6,11 +6,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.RootViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+	prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="viewcontrollers.RootViewController">
 	<children>
-		<BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<BorderPane prefHeight="200.0" prefWidth="200.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<center>
-				<TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+				<TabPane tabClosingPolicy="UNAVAILABLE"
+					BorderPane.alignment="CENTER">
 					<tabs>
 						<Tab text="Expenses">
 							<content>
@@ -24,7 +30,7 @@
 						</Tab>
 						<Tab text="Statistics">
 							<content>
-								<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+								<fx:include fx:id="statsView" source="StatsView.fxml" />
 							</content>
 						</Tab>
 					</tabs>
@@ -33,7 +39,8 @@
 			<top>
 				<AnchorPane BorderPane.alignment="CENTER">
 					<children>
-						<MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<MenuBar AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<menus>
 								<Menu mnemonicParsing="false" text="File">
 									<items>
@@ -47,7 +54,8 @@
 								</Menu>
 								<Menu mnemonicParsing="false" text="Import">
 									<items>
-										<MenuItem mnemonicParsing="false" onAction="#importCSV" text="Barclays (.csv)" />
+										<MenuItem mnemonicParsing="false" onAction="#importCSV"
+											text="Barclays (.csv)" />
 									</items>
 								</Menu>
 								<Menu mnemonicParsing="false" text="Tools">
