@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import util.LocalDateTimeConverter;
 
 /**
@@ -37,6 +39,7 @@ public class User {
 	private String lastName; 
 
 	@Column(name="password")
+//	@Type(type="hashedString")
 	private String password; 
 
 	@Column(name = "lastLogin")

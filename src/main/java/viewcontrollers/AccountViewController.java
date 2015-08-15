@@ -3,6 +3,7 @@ package viewcontrollers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -54,7 +55,9 @@ public class AccountViewController implements Initializable {
 
 
 	@FXML ToggleButton revealToggleButton; 
-
+	boolean detailsShown = false; 
+	
+	
 	/* the below should be set by the parent controller */ 
 	private User user; 
 	private RightPaneSetter rightPaneSetter; 
@@ -79,7 +82,7 @@ public class AccountViewController implements Initializable {
 					public ObservableValue<String> call(
 							CellDataFeatures<Card, String> param) {
 						final String cardNumber = param.getValue().getCardNumber();
-						if (revealToggleButton.isPressed()) { 
+						if (detailsShown) {
 							return new SimpleStringProperty(cardNumber);  
 						}
 						return new SimpleStringProperty(cardNumber.replaceAll("\\d", "*")); 
@@ -95,8 +98,7 @@ public class AccountViewController implements Initializable {
 							CellDataFeatures<Card, String> param) {
 						final String securityCode = param.getValue().getSecurityCode();
 
-						if (revealToggleButton.isPressed()) {
-							logger.debug("in pressed");
+						if (detailsShown) {
 							return new SimpleStringProperty(securityCode);  
 						}
 						return new SimpleStringProperty(securityCode.replaceAll("\\d", "*")); 
@@ -118,7 +120,9 @@ public class AccountViewController implements Initializable {
 
 			/* cards data source */ 
 			cardsList = FXCollections.observableArrayList(); 
-			accountsList.forEach(a -> cardsList.addAll(a.getCards())); 
+			accountsList.forEach(a -> {
+				cardsList.addAll(a.getCards());
+			}); 
 
 			/* set table items */ 
 			accountsTable.setItems(accountsList);
@@ -140,16 +144,26 @@ public class AccountViewController implements Initializable {
 		rightPaneSetter.showAddCardOnRightPane();
 	}
 
-	@FXML private void revealButtonPressed() { 
-		refreshCardsTableView(); 
+	@FXML private void revealButtonPressed() {
+		detailsShown = !detailsShown; 
+		refreshTable();
 	}
 
-	private void refreshCardsTableView() {
-		if (cardsList.size() > 1) {
-			/* force the tableview to refresh */ 
-			cardsList.set(0, cardsList.get(0));
-		}
-	}
+	
+	private void refreshTable() {
+
+		if( cardsList == null || cardsList .size() == 0) return;
+
+	    final Card item = cardsList.get(0);
+	    cardsList.remove(0);
+	    Platform.runLater(new Runnable(){
+	        @Override
+	        public void run() {
+	        	cardsList.add(0, item);
+	        }
+	    });
+	 }
+	
 	public void setAccountsReadWriter(AccountReadWriter accountsReadWriter) {
 		this.accountsReadWriter = accountsReadWriter;
 	}

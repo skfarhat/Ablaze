@@ -3,6 +3,7 @@ package viewcontrollers;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -53,21 +54,12 @@ public class Launcher extends Application {
 		primaryStage.show(); 
 	}
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-
+		
 		/* loads configuration file */ 
 		AblazeConfiguration.initialise();
 		
 		/* makes sure currencies are in the database */ 
 		CurrenciesManager.initialise();
-		
-//		CategoriesManager.categoriesLike("gre");
-//		
-//		logger.debug("result after this");
-//		logger.debug("---------------------------------------------------------------------");
-//		logger.debug(": " + BarclaysCSVParser.findCategory("a s d f g fBLA BLA BLA GREATER ANGLIA ON")); 
-//		SQLManager.getSQL().getCategoriesLinkedTo("GREATER").forEach(c -> logger.debug(c.getName())); 
-//		SQLManager.getSQL().getCategoriesLinkedTo("GREATER ANGLIA").forEach(c -> logger.debug(c.getName()));
-//		SQLManager.getSQL().getCategoriesLinkedTo("GREATER ANGLIA").forEach(c -> logger.debug(c.getName()));
 		
 		launch(args); 
 	}

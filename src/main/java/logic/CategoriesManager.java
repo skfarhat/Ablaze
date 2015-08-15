@@ -68,7 +68,6 @@ public class CategoriesManager {
 					c.addLink(link);
 				}
 
-				logger.debug("about to create category: " + c);
 				/* create Category in the database */
 				SQLManager.getSQL().createCategory(c);
 			}

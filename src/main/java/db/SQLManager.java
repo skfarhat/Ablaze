@@ -7,9 +7,6 @@ import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.ColumnResult;
-import javax.xml.transform.Result;
-
 import models.Account;
 import models.Card;
 import models.Category;
@@ -18,7 +15,6 @@ import models.Expense;
 import models.User;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -26,12 +22,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.mapping.Column;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.sql.ordering.antlr.ColumnReference;
-import org.hibernate.transform.ResultTransformer;
-import org.hibernate.type.StandardBasicTypes;
-import org.hibernate.type.Type;
+import org.jasypt.digest.StandardStringDigester;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.hibernate4.encryptor.HibernatePBEEncryptorRegistry;
 
@@ -46,7 +38,7 @@ public class SQLManager implements UserReadWriter, AccountReadWriter,
 ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesReadWriter {
 
 	/** Log4j */ 
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private final static Logger logger = Logger.getLogger(SQLManager.class);
 
 	/* class made a singleton */ 
@@ -69,12 +61,14 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 					new StandardServiceRegistryBuilder()
 			.applySettings(config.getProperties()).build();
 
-			// FIXME: remove hardcoded values  
-			StandardPBEStringEncryptor myEncryptor = new StandardPBEStringEncryptor();
-			myEncryptor.setPassword("123");
 			HibernatePBEEncryptorRegistry registry = HibernatePBEEncryptorRegistry.getInstance();
+			
+			StandardPBEStringEncryptor myEncryptor = new StandardPBEStringEncryptor();
+			// FIXME : this is insecure and needs to be fixed
+			myEncryptor.setPassword("123");
 			registry.registerPBEStringEncryptor("myHibernateStringEncryptor", myEncryptor);
-
+			
+			
 			return config.buildSessionFactory(serviceRegistry); 
 		}
 		catch (Throwable ex) {
@@ -85,8 +79,6 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	// ================================================================================================
-	// ================================================================================================
-
 	// ============
 	// |   USER   |
 	// ============
@@ -121,7 +113,8 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 		User user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		user.setPassword(PasswordManager.getHash(password));
+		user.setPassword(password);
+//		user.setPassword(PasswordManager.getHash(password));
 		user.setLastLogin(LocalDateTime.now());
 
 		/* persist */ 
@@ -159,9 +152,6 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	// ================================================================================================
-	// ================================================================================================
-
-
 	// ============
 	// | ACCOUNTS |
 	// ============
@@ -225,8 +215,6 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	// ================================================================================================
-	// ================================================================================================
-
 	// ============
 	// | EXPENSES |
 	// ============
@@ -341,8 +329,6 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	// ================================================================================================
-	// ================================================================================================
-
 	// ============
 	// | CARD     |
 	// ============

@@ -25,7 +25,7 @@ import util.VoidFunction;
  */
 public class MonthPickerController implements Initializable {
 
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private final static Logger logger = Logger.getLogger(MonthPicker.class);
 
 	private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yy");
@@ -43,7 +43,7 @@ public class MonthPickerController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		date.set(date.get().minusDays(date.get().getDayOfMonth()+1)); 
+		date.set(date.get().minusDays(date.get().getDayOfMonth()-1));
 		update(); 
 	}
 

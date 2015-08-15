@@ -287,11 +287,6 @@ public class ExpenseViewController implements Initializable {
 				}
 			}
 
-			
-			logger.debug("after"); 
-			logger.debug("expenses list: " + temp.size());
-			logger.debug("duplicates list: " + suspectDuplicates.size());
-			
 			/* create all expenses */ 
 			expenseReadWriter.createExpenses(expenses);
 

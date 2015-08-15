@@ -50,22 +50,17 @@ public class StatsViewController implements Initializable {
 	@FXML private PieChart categoryPieChart;
 
 	private ObjectPropertyBase<LocalDate> date = new ObjectPropertyBase<LocalDate>() {
-
 		@Override
 		public Object getBean() {
 			return null;
 		}
-
 		@Override
 		public String getName() {
 			return "dateProperty"; 
 		}
 	};
 
-	//	private List<>
-
 	@FXML private BarChart<String, Double> expensesBarChart;
-	//	private CategoryAxis xAxis; 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -82,7 +77,6 @@ public class StatsViewController implements Initializable {
 	private void refreshPieChart() {
 		/* clear data */ 
 		categoryPieChart.getData().clear(); 
-		logger.debug("initial date() : " +date.get()); 
 		List<Object[]> data = statsReader.categoriesDataForDates(date.get()); 
 
 		/* calculate the total amount for that month */ 

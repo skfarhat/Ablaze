@@ -1,6 +1,5 @@
 package viewcontrollers;
 
-import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -84,7 +83,6 @@ public class LoginViewController implements Initializable, Refreshable {
 						passwordTextField.setDisable(false);
 						int index = newValue.intValue();
 						selectedUser = usersList.get(index);
-						logger.debug("selected user is " + selectedUser.getFullName());
 					}
 				});
 
