@@ -91,4 +91,17 @@ public class Account {
 	public String toString() {
 		return name; 
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if (obj == null)
+			return false; 
+		if (!obj.getClass().equals(getClass()))
+			return false; 
+		
+		Account a = (Account) obj; 
+		return a.getSortCode().equals(getSortCode()) 
+				&& a.getAccountNumber() == getAccountNumber(); 
+	}
 }

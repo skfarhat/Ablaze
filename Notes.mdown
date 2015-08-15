@@ -26,15 +26,17 @@ TODO:
 * add pound sterling to amount
 * save the last directory opened
 * remove currency from expense - only related to account 
+* categories to expenses
 
 ## BUG
 * after creating an account, the card creator's account choicebox is not refreshed
 
 ## PENDING
+* display pie chart results (per month) 
+* expenses renamed to transaction and fix the type thing 
 * adjust the rest of the application to hibernate-jasypt
 * card info hidden at first but revealed on reveal button 
 * card name in NewCard.fxml
-* categories to expenses
   Can save card information (securely) and display on need
 * Implement SettingsView --
 	> clear database
@@ -51,6 +53,7 @@ TODO:
 ## DEPLOYMENT 
 
 ## STYLE
+* bar chart have different colors
 * smaller font for columns
 * color credits in green and debits in red in ExpenseViewController
 

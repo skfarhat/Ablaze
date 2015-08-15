@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane prefHeight="26.0" prefWidth="251.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controls.superChoiceBox.SuperChoiceBox">
+	<children>
+		<ComboBox fx:id="comboBox" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0" />
+		<AnchorPane fx:id="addModeAnchorPane" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			<children>
+				<TextField fx:id="textfield" promptText="New Item" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0" />
+				<Button fx:id="acceptButton" mnemonicParsing="false" onAction="#acceptButtonPressed" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<graphic>
+						<ImageView>
+							<image>
+								<Image url="@correct.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+				<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="0.0">
+					<graphic>
+						<ImageView>
+							<image>
+								<Image url="@incorrect.png" />
+							</image>
+						</ImageView>
+					</graphic>
+				</Button>
+			</children>
+		</AnchorPane>
+	</children>
+</AnchorPane>

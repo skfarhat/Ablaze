@@ -39,8 +39,13 @@ public class Expense {
     @Convert(converter = LocalDateConverter.class)
 	private LocalDate dateIncurred; 
 	
-	@Column(name = "category")
-	private String category;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "category", nullable = true)
+	private Category category; 
+	
+//	@Column(name = "category")
+//	private String category;
 
 	@Column(name = "type")
 	private String type;
@@ -63,9 +68,10 @@ public class Expense {
 	public void setAmount(Double value) {
 		this.amount = value;
 	}
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
 	public void setSubCategory(String subCategory) {
 		this.subCategory = subCategory;
 	}
@@ -97,10 +103,7 @@ public class Expense {
 	public LocalDate getDateIncurred() {
 		return dateIncurred;
 	}
-	/**
-	 * @return the category
-	 */
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 	/**

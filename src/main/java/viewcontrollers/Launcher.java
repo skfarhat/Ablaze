@@ -1,3 +1,4 @@
+
 package viewcontrollers;
 
 import java.io.IOException;
@@ -9,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logic.AblazeConfiguration;
+import logic.BarclaysCSVParser;
+import logic.CategoriesManager;
 import logic.CurrenciesManager;
 
 import org.apache.log4j.BasicConfigurator;
@@ -56,6 +59,15 @@ public class Launcher extends Application {
 		
 		/* makes sure currencies are in the database */ 
 		CurrenciesManager.initialise();
+		
+//		CategoriesManager.categoriesLike("gre");
+//		
+//		logger.debug("result after this");
+//		logger.debug("---------------------------------------------------------------------");
+//		logger.debug(": " + BarclaysCSVParser.findCategory("a s d f g fBLA BLA BLA GREATER ANGLIA ON")); 
+//		SQLManager.getSQL().getCategoriesLinkedTo("GREATER").forEach(c -> logger.debug(c.getName())); 
+//		SQLManager.getSQL().getCategoriesLinkedTo("GREATER ANGLIA").forEach(c -> logger.debug(c.getName()));
+//		SQLManager.getSQL().getCategoriesLinkedTo("GREATER ANGLIA").forEach(c -> logger.debug(c.getName()));
 		
 		launch(args); 
 	}

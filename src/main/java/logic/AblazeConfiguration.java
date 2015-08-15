@@ -19,8 +19,9 @@ import org.json.JSONObject;
  *
  */
 public class AblazeConfiguration {
+
 	/** Log4j */ 
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private final static Logger logger = Logger.getLogger(CategoriesManager.class);
 
 	/* constants */
@@ -29,6 +30,7 @@ public class AblazeConfiguration {
 	private final static String SYSTEM 						= "system";
 	private final static String SYSTEM_INITIAL_DIR 			= "initial-directory";
 	private final static String SYSTEM_LAST_OPENED_DIR		= "last-opened-directory";
+	private final static String CATEGORIES					= "categories";
 
 	/* Singleton */ 
 	private final static AblazeConfiguration configuration = new AblazeConfiguration(); 
@@ -62,6 +64,11 @@ public class AblazeConfiguration {
 			String lastOpenedDir = system.get(SYSTEM_LAST_OPENED_DIR). toString();
 			configMap.put(SYSTEM_LAST_OPENED_DIR, lastOpenedDir);
 		}
+		
+		/* parses categoies and inserts them in the categoriesMap */
+		JSONObject categories = (JSONObject) root.get(CATEGORIES);
+		CategoriesManager.handleCategories(categories);
+		
 
 		/* handle currencies */ 
 		JSONArray array = root.getJSONArray(KEY_CURRENCIES);

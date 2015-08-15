@@ -51,7 +51,6 @@ public class RootViewController implements Initializable, RightPaneSetter {
 	public RootViewController() {}
 
 	public void initialize(URL location, ResourceBundle resources) {
-		
 	
 		expenseViewController.setExpenseReadWriter(SQLManager.getSQL());
 		expenseViewController.setRightPaneSetter(this);
@@ -140,6 +139,7 @@ public class RootViewController implements Initializable, RightPaneSetter {
 			controller.setExpenseReader(sqlManager);
 			controller.setRightPaneSetter(this);
 			controller.setUser(user);
+			controller.setCategoriesReadWriter(sqlManager);
 			controller.refresh();
 			
 			/* change the displayed pane on the right side */ 

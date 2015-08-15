@@ -9,6 +9,13 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontrollers.NewExpenseViewController">
 	<children>
+		<AnchorPane fx:id="newCategoryAnchorPane" layoutY="135.0" prefHeight="26.0" prefWidth="200.0" style="-fx-background-color: red;" visible="false" AnchorPane.topAnchor="135.0">
+			<children>
+				<TextField AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0" />
+				<Button mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+				<Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="0.0" />
+			</children>
+		</AnchorPane>
 		<Label layoutX="17.0" layoutY="7.0" text="New Expense">
 			<font>
 				<Font name="System Bold" size="14.0" />
@@ -16,7 +23,7 @@
 		</Label>
 		<TextField fx:id="descriptionTextField" layoutX="12.0" layoutY="47.0" prefHeight="26.0" prefWidth="165.0" promptText="Title" />
 		<TextField fx:id="amountTextField" layoutX="56.0" layoutY="80.0" prefHeight="26.0" prefWidth="117.0" promptText="Amount" />
-		<ChoiceBox fx:id="categoryChoiceBox" layoutX="13.0" layoutY="135.0" prefWidth="150.0" />
+		<ChoiceBox fx:id="categoryChoiceBox" layoutX="13.0" layoutY="353.0" prefWidth="150.0" />
 		<ChoiceBox fx:id="subCategoryChoiceBox" layoutX="13.0" layoutY="191.0" prefWidth="150.0" />
 		<DatePicker fx:id="datePicker" layoutX="17.0" layoutY="248.0" prefHeight="26.0" prefWidth="109.0" />
 		<Label layoutX="17.0" layoutY="224.0" prefWidth="38.0" text="Date" />
@@ -29,8 +36,13 @@
 				<TableColumn prefWidth="150.0" resizable="false" text="Tags" />
 			</columns>
 		</TableView>
-      <Button layoutX="151.0" layoutY="627.0" mnemonicParsing="false" onAction="#confirmButtonPressed" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Button layoutX="26.0" layoutY="627.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
-      <Label fx:id="currencyLabel" layoutX="13.0" layoutY="85.0" prefHeight="16.0" prefWidth="38.0" text="\$$" />
+		<Button layoutX="151.0" layoutY="627.0" mnemonicParsing="false" onAction="#confirmButtonPressed" text="Confirm" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+		<Button layoutX="26.0" layoutY="627.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+		<Label fx:id="currencyLabel" layoutX="13.0" layoutY="85.0" prefHeight="16.0" prefWidth="38.0" text="£" />
+		<AnchorPane layoutX="1.0" layoutY="133.0">
+			<children>
+				<fx:include fx:id="superChoiceBox" source="../controls/superChoiceBox/SuperChoiceBoxView.fxml" />
+			</children>
+		</AnchorPane>
 	</children>
 </AnchorPane>

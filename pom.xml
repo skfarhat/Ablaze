@@ -15,7 +15,6 @@
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<!-- Needed for hibernate crypt -->
 			<groupId>org.jasypt</groupId>

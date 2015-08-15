@@ -5,6 +5,8 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
@@ -19,16 +21,37 @@
 					BorderPane.alignment="CENTER">
 					<tabs>
 						<Tab text="Expenses">
+							<graphic>
+								<ImageView>
+									<image>
+										<Image url="@res/expenses-tab-icon.png" />
+									</image>
+								</ImageView>
+							</graphic>
 							<content>
 								<fx:include fx:id="expenseView" source="ExpenseView.fxml" />
 							</content>
 						</Tab>
 						<Tab text="Accounts">
+								<graphic>
+								<ImageView>
+									<image>
+										<Image url="@res/accounts-tab-icon.png" />
+									</image>
+								</ImageView>
+							</graphic>
 							<content>
 								<fx:include fx:id="accountView" source="AccountView.fxml" />
 							</content>
 						</Tab>
 						<Tab text="Statistics">
+							<graphic>
+								<ImageView>
+									<image>
+										<Image url="@res/stats-tab-icon.png" />
+									</image>
+								</ImageView>
+							</graphic>
 							<content>
 								<fx:include fx:id="statsView" source="StatsView.fxml" />
 							</content>

@@ -3,11 +3,18 @@ package logic;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import models.Category;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import util.algs4.TST;
+import db.SQLManager;
 
 /**
  * Singleton
@@ -20,8 +27,6 @@ public class CategoriesManager {
 	@SuppressWarnings("unused")
 	private final static Logger logger = Logger.getLogger(CategoriesManager.class);
 
-	private final static String filename = "src/main/java/res/categories.json"; 
-
 	private static HashMap<String, String> categories = new HashMap<>(); 
 
 	/* Singleton */ 
@@ -29,32 +34,69 @@ public class CategoriesManager {
 	public static CategoriesManager getInstance() { 
 		return categoriesManager; 
 	}
+	
+	private static TST<String> tst = new TST<>(); 
 
+	
 
+	
 	/**
-	 * parses file to link keywords to categories
-	 * @throws IOException 
+	 * 
+	 * @param root JSONObject containing the 'categories' JSONObject
 	 */
-	public static void initialise() throws IOException {
+	public static void handleCategories(JSONObject root) { 
 		
-		String json = readFile(filename); 
-		JSONObject object = new JSONObject(json); 
+		/* categories */
+		if (root!= null) {
 		
-		for (String key : object.keySet()) {
-			JSONArray array = object.getJSONArray(key);
-			for (int i = 0; i < array.length(); i++) { 
-				String s = (String) array.get(i);
+			for (String key : root.keySet()) { 
 				
-				/*
-				 * puts (Keyword, 	Category)
-				 * puts (tesco, 	Groceries)   
-				 * */
-				categories.put(s.toLowerCase(), key); 
+				Category c = new Category(key);
+				
+				JSONArray links = (JSONArray) root.get(key);
+				
+				for (int i = 0; i < links.length(); i++) {
+					String link = (String) links.get(i); 
+					if (categories.containsKey(link)) { 
+						logger.warn("one of the category links may exist twice - this 'might' cause problems/confusions");
+					} else { 
+						categories.put(link, key);
+						tst.put(link, key);
+					}
+					
+					/* add link to the category object */ 
+					c.addLink(link);
+				}
+
+				logger.debug("about to create category: " + c);
+				/* create Category in the database */
+				SQLManager.getSQL().createCategory(c);
 			}
 		}
-		
 	}
 	
+	
+	/**
+	 * 
+	 * @param link
+	 * @return null if not linked category was found 
+	 */
+	public static Category categoriesLike(String link) {
+		List<Category> results = SQLManager.getSQL().getCategoriesLinkedTo(link);
+		if ( !results.isEmpty() )
+			return results.get(0); 
+		else 
+			return null; 
+	}
+//	public static String categoriesLike(String key) {
+//		List<String> list = new ArrayList<>();
+//		tst.keysWithPrefix(key).forEach( s -> {list.add(s); logger.debug(s); });
+//		if (list.size() > 0)
+//			return list.get(0);
+//		else return null; 
+////		return tst.keysWithPrefix(key).iterator().next(); 
+//	}
+//	
 	public static String getCategory(String key) { 
 		return categories.get(key.toLowerCase()); 
 	}

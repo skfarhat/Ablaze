@@ -82,7 +82,6 @@ public class AccountViewController implements Initializable {
 						if (revealToggleButton.isPressed()) { 
 							return new SimpleStringProperty(cardNumber);  
 						}
-						logger.debug("outside pressed");
 						return new SimpleStringProperty(cardNumber.replaceAll("\\d", "*")); 
 					}});
 

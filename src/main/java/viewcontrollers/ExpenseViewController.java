@@ -34,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.BarclaysCSVParser;
 import models.Account;
+import models.Category;
 import models.Expense;
 import models.User;
 
@@ -42,6 +43,7 @@ import org.apache.log4j.Logger;
 import viewcontrollers.popups.DuplicateExpenseViewController;
 import controls.MonthPickerController;
 import db.AccountReader;
+import db.CategoriesReadWriter;
 import db.ExpenseReadWriter;
 import exceptions.NullAccountException;
 
@@ -71,6 +73,7 @@ public class ExpenseViewController implements Initializable {
 
 	/* the below should be set by the parent controller */ 
 	private ExpenseReadWriter expenseReadWriter; 
+	
 	private User user; 
 	private RightPaneSetter rightPaneSetter; 
 
@@ -149,6 +152,19 @@ public class ExpenseViewController implements Initializable {
 						Account acct = param.getValue().getValue().getAccount(); 
 						if (acct != null)
 							return new ReadOnlyStringWrapper(acct.getName());
+						else 
+							return new ReadOnlyStringWrapper(""); 
+					}
+				});
+		
+		categoryColumn.setCellValueFactory(
+				new Callback<CellDataFeatures<Expense,String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							CellDataFeatures<Expense, String> param) {
+						Category categ = param.getValue().getValue().getCategory();  
+						if (categ != null)
+							return new ReadOnlyStringWrapper(categ.getName());
 						else 
 							return new ReadOnlyStringWrapper(""); 
 					}
@@ -306,5 +322,5 @@ public class ExpenseViewController implements Initializable {
 	}
 	public void setExpenseReadWriter(ExpenseReadWriter expenseReadWriter) {
 		this.expenseReadWriter = expenseReadWriter;
-	}
+	} 
 }

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -19,12 +20,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Account;
+import models.Category;
 import models.Expense;
 import models.User;
 
 import org.apache.log4j.Logger;
 
+import controls.superChoiceBox.SuperChoiceBox;
 import viewcontrollers.popups.DuplicateExpenseViewController;
+import db.CategoriesReadWriter;
 import db.ExpenseReader;
 import db.ExpenseWriter;
 
@@ -37,11 +41,12 @@ public class NewExpenseViewController implements Initializable {
 
 
 	/** Log4j */ 
-//	@SuppressWarnings("unused")
+	//	@SuppressWarnings("unused")
 	private final static Logger logger = Logger.getLogger(NewExpenseViewController.class);
 
-	private ExpenseWriter expenseWriter; 
-	private ExpenseReader expenseReader; 
+	private CategoriesReadWriter 	categoriesReadWriter; 
+	private ExpenseWriter 			expenseWriter; 
+	private ExpenseReader 			expenseReader; 
 
 	@FXML private TextField descriptionTextField; 
 	@FXML private TextField amountTextField; 
@@ -53,6 +58,7 @@ public class NewExpenseViewController implements Initializable {
 	@FXML private DatePicker datePicker; 
 	@FXML private ChoiceBox<Account> accountChoiceBox; 
 
+	@FXML private SuperChoiceBox<Category> superChoiceBoxController; 
 
 	private User user; 
 
@@ -66,6 +72,33 @@ public class NewExpenseViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		datePicker.setValue(LocalDate.now());
+
+		Category cate = new Category(); 
+		cate.setName("New Category");
+		superChoiceBoxController.setT(cate);
+		superChoiceBoxController.setReadWriter(categoriesReadWriter);
+		superChoiceBoxController.setAddButtonFunction(text -> {
+			
+			/* create new category object */ 
+			Category category = new Category(); 
+			category.setName(text);
+			
+			/* check that this category doesn't already exist in the ComboBox, 
+			 * if it exists we request the combo box select it
+			 * if it does not exist, we create it in the database and call for the 
+			 * SuperComboBox to be refreshed 
+			 * */ 
+			if (categoriesReadWriter.categoryExists(category)) {
+				int index = superChoiceBoxController.indexOf(category); 
+				superChoiceBoxController.requestSelection(index);
+				/* return null indicating we haven't added any item */ 
+				return null; 
+			} else { 
+				/* create and return the item we created */ 
+				categoriesReadWriter.createCategory(category);
+				return category;	
+			}
+		}); 
 	}
 
 	@FXML private void confirmButtonPressed() {
@@ -77,13 +110,14 @@ public class NewExpenseViewController implements Initializable {
 		final Account account = accountChoiceBox.getValue(); 
 		final LocalDate date = datePicker.getValue(); 
 		final String type = ""; // TODO: do type field
-		
+
 		// TODO: make sure the entered value is a number
 		final Double amount = Double.parseDouble(amountTextField.getText());
 
 		Expense expense = new Expense();
 		expense.setAccount(account);
-		expense.setCategory(category);
+		// FIXME
+		//		expense.setCategory(category);
 		expense.setSubCategory(subCategory);
 		expense.setDateIncurred(date); 
 		expense.setDescription(description);
@@ -120,7 +154,7 @@ public class NewExpenseViewController implements Initializable {
 
 		//TODO: fill categories options 
 		accountChoiceBox.setItems(FXCollections.observableArrayList(user.getAccounts()));
-		
+
 		accountChoiceBox.getSelectionModel().selectedIndexProperty().addListener((o,val,newVal)-> {
 			Account act = accountChoiceBox.getItems().get(newVal.intValue()); 
 			currencyLabel.setText(act.getCurrency().getSymbol());
@@ -143,5 +177,12 @@ public class NewExpenseViewController implements Initializable {
 
 	public void setExpenseReader(ExpenseReader expenseReader) {
 		this.expenseReader = expenseReader;
+	}
+	public void setCategoriesReadWriter(
+			CategoriesReadWriter categoriesReadWriter) {
+		this.categoriesReadWriter = categoriesReadWriter;
+
+		superChoiceBoxController.setReadWriter(categoriesReadWriter);
+		superChoiceBoxController.setItems(categoriesReadWriter.getAllCategories());
 	}
 }

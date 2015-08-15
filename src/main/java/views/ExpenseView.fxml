@@ -25,8 +25,8 @@
 				<TreeTableColumn fx:id="amountColumn" prefWidth="75.0" text="Amount" />
 				<TreeTableColumn fx:id="categoryColumn" prefWidth="100.0" text="Category" />
 				<TreeTableColumn fx:id="subCategoryColumn" prefWidth="100.0" text="SubCategory" />
-				<TreeTableColumn fx:id="accountColumn" prefWidth="100.0" text="Account" />
-				<TreeTableColumn fx:id="descriptionColumn" prefWidth="350.0" text="Description" />
+				<TreeTableColumn fx:id="accountColumn" prefWidth="150.0" text="Account" />
+				<TreeTableColumn fx:id="descriptionColumn" prefWidth="350.0" resizable="false" text="Description" />
 			</columns>
 		</TreeTableView>
 	</children>

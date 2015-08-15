@@ -1,23 +1,37 @@
 package db;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.persistence.ColumnResult;
+import javax.xml.transform.Result;
 
 import models.Account;
 import models.Card;
+import models.Category;
 import models.Currency;
 import models.Expense;
 import models.User;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.mapping.Column;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.sql.ordering.antlr.ColumnReference;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.Type;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.hibernate4.encryptor.HibernatePBEEncryptorRegistry;
 
@@ -29,7 +43,7 @@ import util.PasswordManager;
  * @author Sami
  */
 public class SQLManager implements UserReadWriter, AccountReadWriter, 
-ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader {
+ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesReadWriter {
 
 	/** Log4j */ 
 	@SuppressWarnings("unused")
@@ -255,7 +269,8 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader {
 		Session session = getCurrentSession(); 
 		session.beginTransaction(); 
 
-		for (Expense e : expenses) { 
+		for (Expense e : expenses) {
+			logger.debug("expense: " + e.getDescription() + " category: " + e.getCategory());
 			session.save(e);
 		}
 		/* commit */ 
@@ -349,6 +364,10 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader {
 	// | CURRENCIES  |
 	// ==============
 
+	/**
+	 * for each item in the list, this method checks to see if it exists in the database. 
+	 * Only upon its absence is a new item created in the database
+	 */
 	@Override
 	public void createCurrencies(List<Currency> list) {
 		/* begin transaction */ 
@@ -381,11 +400,12 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader {
 
 		return currencyList;
 	}
-	
-	
+
+
+
 	@Override
 	public List<Object[]> netExpensesByMonth() {
-		
+
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
@@ -395,17 +415,209 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader {
 				+ "WHERE amount< 0 "
 				+ "GROUP BY Year(dateIncurred), Month(dateIncurred) "
 				+ "ORDER BY dateIncurred DESC" ;
-		
+
 		Query query = session.createSQLQuery(sql); 
 		List<Object[]> results = query.list();
-		
-//		logger.debug("listing results"); 
-//		for (Object[] o : results) {
-//			logger.debug(o.length); 
-//			logger.debug(o[0] + " " + o[1]); 
-//		}
+
 		session.getTransaction().commit();
 		return results;  
+	}
+
+	@Override
+	public List<Object[]> categoriesData() {
+		logger.trace("categoriesData");
+
+		/* put all categories in an map <id, category>  */ 
+		HashMap<Integer, Category> map = new HashMap<>();
+		List<Category> categories = getAllCategories(); 
+		categories.forEach(c -> {
+			map.put(c.getId(), c); 
+		});
+
+		final String sql = "SELECT DATE_FORMAT(dateIncurred,'%Y-%m') as date, "
+				+ "category as cat, Count(*) as count, ROUND(SUM(amount),2) as sum "
+				+ "FROM Expense "
+				+ "WHERE amount < 0 and dateIncurred "
+				+ "GROUP BY Year(dateIncurred) , Month(dateIncurred), category "
+				+ "ORDER BY dateIncurred DESC";
+
+		/* begin transaction */ 
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		SQLQuery query = session.createSQLQuery(sql);// 
+
+		/* replace Category_id with the actual category object by fetching the objects from db */ 
+		List<Object[]> results = query.list();
+		results.forEach(o -> {
+			if (o[1] != null) { 
+				/* get category id */ 
+				Integer cat_id = Integer.parseInt(o[1].toString());
+
+				/* put category object in map */ 
+				o[1] = map.get(cat_id);	
+			}
+		});
+
+		session.getTransaction().commit();
+		return results;
+	}
+	
+	@Override
+	public List<Object[]> categoriesDataForDates(LocalDate date) {
+
+		/* put all categories in an map <id, category>  */ 
+		HashMap<Integer, Category> map = new HashMap<>();
+		List<Category> categories = getAllCategories(); 
+		categories.forEach(c -> {
+			map.put(c.getId(), c); 
+		});
+
+		final String sql = "SELECT DATE_FORMAT(dateIncurred,'%Y-%m') as date, "
+				+ "category as cat, Count(*) as count, ROUND(SUM(amount),2) as sum "
+				+ "FROM Expense "
+				+ "WHERE amount < 0 and (dateIncurred between ? and ?)"
+				+ "GROUP BY Year(dateIncurred) , Month(dateIncurred), category "
+				+ "ORDER BY dateIncurred DESC";
+
+		/* begin transaction */ 
+		Session session = getCurrentSession();
+		session.beginTransaction();
+		SQLQuery query = session.createSQLQuery(sql);
+
+		// TODO: simplify
+		LocalDate from 		= date; 
+		LocalDate to		= from.plusDays(from.lengthOfMonth() - 1);
+		Timestamp from1 = Timestamp.valueOf(from.atStartOfDay());
+		Timestamp to1	= Timestamp.valueOf(to.atStartOfDay());
+		
+		query.setTimestamp(0, from1);
+		query.setTimestamp(1, to1);
+		
+		/* replace Category_id with the actual category object by fetching the objects from db */ 
+		List<Object[]> results = query.list();
+		results.forEach(o -> {
+			if (o[1] != null) { 
+				/* get category id */ 
+				Integer cat_id = Integer.parseInt(o[1].toString());
+
+				/* put category object in map */ 
+				o[1] = map.get(cat_id);	
+			}
+		});
+		
+		session.getTransaction().commit();
+		return results;
+	}
+	
+
+	public Category getCategory(Integer id) { 
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		Query query = session.createQuery("from Category where id=:id");
+		query.setParameter("id", id);
+
+		List<Category> categoryList = query.list();
+		/* commit */ 
+		session.getTransaction().commit();
+
+		if (categoryList.size() > 0) 
+			return categoryList.get(0); 
+
+		return null; 
+
+	}
+
+	@Override
+	public boolean categoryExists(Category category) {
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		Query query = session.createQuery("from Category where name=:name");
+		query.setParameter("name", category.getName());
+
+		List<Currency> currencyList = query.list();
+
+		/* commit */ 
+		session.getTransaction().commit();
+
+		return currencyList.size() > 0; 
+	}
+	@Override
+	public void createCategory(Category category) {
+
+		/* if it already exists skip */ 
+		if (categoryExists(category))
+			return; 
+
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		session.save(category);
+
+		/* commit */ 
+		session.getTransaction().commit();
+
+	}
+	public void createCategories(List<Category> list) { 
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+
+		for (Category c : list) {
+			if (categoryExists(c))
+				continue; 
+
+			session.beginTransaction(); 
+			session.save(c); 
+			session.getTransaction().commit(); 
+		}
+	}
+	@Override
+	public List<Category> getAllCategories() {
+		/* begin transaction */ 
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		Query query = session.createQuery("from Category ");
+
+		List<Category> categoryList = query.list();
+
+		/* commit */ 
+		session.getTransaction().commit();
+
+		return categoryList;
+	}
+
+
+	/**
+	 * returns all categories that are/or could be linked to the 
+	 * link parameter
+	 * @param link
+	 * @return
+	 */
+	public List<Category> getCategoriesLinkedTo(String link) { 
+		logger.trace("getCategoriesLinkedTo");
+		//		String sql = "from Link where name Like '%:link%'";
+		String sql = "SELECT * FROM Category "
+				+ "WHERE id in (SELECT category FROM Link WHERE name LIKE ?)";
+		Session session = getCurrentSession(); 
+		session.beginTransaction();
+
+		SQLQuery query = session.createSQLQuery(sql)
+				.addEntity(Category.class);
+
+		String part = String.format("%%%s%%", link); 
+		query.setParameter(0, part);
+
+		List<Category> categories = query.list();
+
+		/* commit */ 
+		session.getTransaction().commit();
+
+		return categories;  
 	}
 
 }

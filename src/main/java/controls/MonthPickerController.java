@@ -43,6 +43,7 @@ public class MonthPickerController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		date.set(date.get().minusDays(date.get().getDayOfMonth()+1)); 
 		update(); 
 	}
 

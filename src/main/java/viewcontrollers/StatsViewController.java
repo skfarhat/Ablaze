@@ -3,6 +3,7 @@ package viewcontrollers;
 import java.net.URL;
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -16,8 +17,10 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
+import models.Category;
 import models.User;
 
 import org.apache.log4j.Logger;
@@ -33,19 +36,19 @@ public class StatsViewController implements Initializable {
 	private final static Logger logger = Logger.getLogger(StatsViewController.class);
 
 	private User user; 
-	
+
 	private static final int CATEGORIES_X_COUNT = 6;
-	
+
 	private ExpenseReader 	expenseReader;
 	private AccountReader 	accountReader; 
 	private StatsReader 	statsReader; 
 	@FXML private MonthPickerController monthPickerController;
-	
+
 	@FXML private Label totalInLabel;
 	@FXML private Label totalOutLabel;
 	@FXML private Label netLabel;
 	@FXML private PieChart categoryPieChart;
-	
+
 	private ObjectPropertyBase<LocalDate> date = new ObjectPropertyBase<LocalDate>() {
 
 		@Override
@@ -58,53 +61,81 @@ public class StatsViewController implements Initializable {
 			return "dateProperty"; 
 		}
 	};
-	
-//	private List<>
-	
+
+	//	private List<>
+
 	@FXML private BarChart<String, Double> expensesBarChart;
-//	private CategoryAxis xAxis; 
-	
+	//	private CategoryAxis xAxis; 
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		xAxis = new CategoryAxis(); 
-		
 		monthPickerController.setDelegate(() -> refresh());
-		
-		
-	}
-	
-	public void refresh() {
 		date.bind(monthPickerController.getDate());
+	}
 
-////		/* number of months that are displayed on the x-axis */
-////		ObservableList<String> xAxis = FXCollections.observableArrayList();
-//
-//		/* x-axis */ 
-//		LocalDate now = date.get(); 
-//		for (int i = 0; i < CATEGORIES_X_COUNT; i++) { 
-//			now = now.minusMonths(1);
-//			String date = now.getMonth().toString() + now.getYear(); 
-////			xAxis.add(date);
-//		}
-//		/* y-axis */
-//		
+
+	public void refresh() {
+		refreshBarChart();
+		refreshPieChart();
+	}
+
+	private void refreshPieChart() {
+		/* clear data */ 
+		categoryPieChart.getData().clear(); 
+		logger.debug("initial date() : " +date.get()); 
+		List<Object[]> data = statsReader.categoriesDataForDates(date.get()); 
+
+		/* calculate the total amount for that month */ 
+		double total = 0.0;
+		for (int i = 0; i < data.size(); i++){
+			Object o[] = data.get(i); 
+			Double amount = Double.parseDouble(o[3].toString()); 
+			total+=amount; 
+		}
+
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(); 
+		for (int i = 0; i < data.size(); i++) { 
+			Object o[] = data.get(i);
+			Category category = (Category) o[1]; 
+
+			Double amount = Double.parseDouble(o[3].toString());
+			String catName; 
+			if (category == null)
+				catName = "Other"; 
+			else 
+				catName = category.getName();
+			
+			PieChart.Data d =  new PieChart.Data(catName, 100*(amount/total));
+
+			pieChartData.add(d); 
+		}
+		categoryPieChart.setData(pieChartData); 
+	}
+	private void refreshBarChart() {
 		
+		/* clear data */ 
+		expensesBarChart.getData().clear();
+
 		CategoryAxis xAxis = new CategoryAxis();
 		xAxis.setLabel("date");
+
 		NumberAxis 	yAxis = new NumberAxis(); 
 		yAxis.setLabel("Expenses");
-		
+
+		// TODO: if want to limit the number then add condition < CATEGOIRES_X_COUNT
 		List<Object[]> netExpenses = statsReader.netExpensesByMonth();
+
+		Series<String, Double> serie = new XYChart.Series<>(); 
+		List<Series<String, Double>> series = new ArrayList<>(); 
 		for (Object[] o : netExpenses) { 
 			String date 	= (String) o[0]; 
 			Double amount 	= -(Double) o[1];
 
-			Series<String, Double> series = new XYChart.Series<>(); 
-			series.getData().add(new XYChart.Data<String, Double>(date, amount));
-			series.setName(date);
-			expensesBarChart.getData().add(series); 
+			Data<String, Double> data = new XYChart.Data<String, Double>(date, amount);
+			serie.getData().add(serie.getData().size(), data);
 		}
-		
+		series.add(serie); 
+		expensesBarChart.getData().addAll(series);
 	}
 
 	public void setUser(User user) {
@@ -117,7 +148,7 @@ public class StatsViewController implements Initializable {
 	public void setAccountReader(AccountReader accountReader) {
 		this.accountReader = accountReader;
 	}
-	
+
 	public void setStatsReader(StatsReader statsReader) {
 		this.statsReader = statsReader;
 	}

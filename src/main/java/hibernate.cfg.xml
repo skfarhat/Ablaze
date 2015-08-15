@@ -40,6 +40,7 @@
 		<mapping class="models.Expense" />
 		<mapping class="models.Card" />
 		<mapping class="models.Currency" />
+		<mapping class="models.Category" />
 
 	</session-factory>
 
