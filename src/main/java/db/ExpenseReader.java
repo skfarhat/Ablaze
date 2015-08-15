@@ -3,7 +3,7 @@ package db;
 import java.time.Month;
 import java.util.List;
 
-import models.Expense;
+import models.Transaction;
 import models.User;
 
 /**
@@ -13,9 +13,9 @@ import models.User;
  */
 public interface ExpenseReader {
 
-	public List<Expense> getAllExpenses(); 
-	public List<Expense> getAllExpensesForUser(User user);
-	public List<Expense> getExpensesForMonth(Month month, int year, User user);
+	public List<Transaction> getAllTransactions(); 
+	public List<Transaction> getAllTransactionsForUser(User user);
+	public List<Transaction> getExpensesForMonth(Month month, int year, User user);
 
-	public boolean expenseIsSuspectDuplicate(Expense expense); 
+	public boolean expenseIsSuspectDuplicate(Transaction expense); 
 }

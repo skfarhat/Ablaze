@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import models.Expense;
+import models.Transaction;
 
 import org.apache.log4j.Logger;
 
@@ -28,7 +28,7 @@ public class DuplicateExpenseViewController implements Initializable {
 	private ExpenseWriter writer; 
 	private int index = 0;
 	private int size; 
-	private List<Expense> expenses; 
+	private List<Transaction> expenses; 
 
 	@FXML Label accountLabel;
 	@FXML Label descriptionLabel;
@@ -42,7 +42,7 @@ public class DuplicateExpenseViewController implements Initializable {
 	}
 	
 	private void refresh() { 
-		Expense e = expenses.get(index); 
+		Transaction e = expenses.get(index); 
 		
 		accountLabel.setText(e.getAccount().getName());
 		descriptionLabel.setText(e.getDescription());
@@ -71,8 +71,8 @@ public class DuplicateExpenseViewController implements Initializable {
 	
 	@FXML public void addAnywayButtonPressed() {
 		/* add expense to database */ 
-		Expense e = expenses.get(index);
-		writer.createExpense(e);
+		Transaction e = expenses.get(index);
+		writer.createTransaction(e);
 		
 		/* if last item close controller */
 		if ( isLastItem() )
@@ -103,7 +103,7 @@ public class DuplicateExpenseViewController implements Initializable {
 	public void setWriter(ExpenseWriter writer) {
 		this.writer = writer;
 	}
-	public void setExpenses(List<Expense> expenses) {
+	public void setExpenses(List<Transaction> expenses) {
 		this.expenses = expenses;
 		this.size = expenses.size(); 
 		refresh();

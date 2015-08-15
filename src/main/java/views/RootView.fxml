@@ -20,7 +20,7 @@
 				<TabPane tabClosingPolicy="UNAVAILABLE"
 					BorderPane.alignment="CENTER">
 					<tabs>
-						<Tab text="Expenses">
+						<Tab text="Transactions">
 							<graphic>
 								<ImageView>
 									<image>

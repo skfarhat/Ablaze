@@ -11,7 +11,7 @@ import models.Account;
 import models.Card;
 import models.Category;
 import models.Currency;
-import models.Expense;
+import models.Transaction;
 import models.User;
 
 import org.apache.log4j.Logger;
@@ -215,18 +215,18 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	// ================================================================================================
-	// ============
-	// | EXPENSES |
-	// ============
+	// ===============
+	// | TRANSACTIONS |
+	// ===============
 
 	@Override
-	public List<Expense> getAllExpenses() { 
+	public List<Transaction> getAllTransactions() { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from Expense");
-		List<Expense> expenses = query.list();
+		Query query = session.createQuery("from Transaction");
+		List<Transaction> expenses = query.list();
 
 		/* commit */ 
 		session.getTransaction().commit();
@@ -235,15 +235,15 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	@Override
-	public List<Expense> getAllExpensesForUser(User user) { 
+	public List<Transaction> getAllTransactionsForUser(User user) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from Expense where account.user.id = :user");
+		Query query = session.createQuery("from Transaction where account.user.id = :user");
 		query.setParameter("user", user.getId());
 
-		List<Expense> expenses = query.list();
+		List<Transaction> expenses = query.list();
 
 		/* commit */ 
 		session.getTransaction().commit();
@@ -252,13 +252,12 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 	}
 
 	@Override
-	public void createExpenses(List<Expense> expenses) { 
+	public void createTransactions(List<Transaction> transactions) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction(); 
 
-		for (Expense e : expenses) {
-			logger.debug("expense: " + e.getDescription() + " category: " + e.getCategory());
+		for (Transaction e : transactions) {
 			session.save(e);
 		}
 		/* commit */ 
@@ -266,30 +265,30 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 
 	}
 	/**
-	 * this method expects an expense object that will be used to create 
+	 * this method expects a Transaction object that will be used to create 
 	 * an SQL entry
-	 * @param expense
+	 * @param t
 	 */
 	@Override
-	public void createExpense(Expense expense) { 
+	public void createTransaction(Transaction t) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction(); 
 
 		/* save */ 
-		session.save(expense);
+		session.save(t);
 
 		/* commit */ 
 		session.getTransaction().commit();
 	}
 
 	@Override
-	public List<Expense> getExpensesForMonth(Month month, int year, User user) {
+	public List<Transaction> getExpensesForMonth(Month month, int year, User user) {
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from Expense where account.user.id = :user "
+		Query query = session.createQuery("from Transaction where account.user.id = :user "
 				+ "and dateIncurred between :startDate and :endDate order by dateIncurred DESC");
 
 		LocalDate start 	= LocalDate.of(year, month.getValue(), 1);
@@ -300,7 +299,7 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 		query.setParameter("startDate", start); 
 		query.setParameter("endDate", end); 
 
-		List<Expense> expenses = query.list(); 
+		List<Transaction> expenses = query.list(); 
 
 		/* commit */ 
 		session.getTransaction().commit();
@@ -308,12 +307,12 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 		return expenses;
 	}
 
-	public boolean expenseIsSuspectDuplicate(Expense expense) { 
+	public boolean expenseIsSuspectDuplicate(Transaction expense) { 
 		/* begin transaction */ 
 		Session session = getCurrentSession(); 
 		session.beginTransaction();
 
-		Query query = session.createQuery("from Expense where "
+		Query query = session.createQuery("from Transaction where "
 				+ "account.user.id = :user "
 				+ "and dateIncurred = :dateIncurred "
 				+ "and amount = :amount ");
@@ -321,7 +320,7 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 		query.setParameter("dateIncurred", expense.getDateIncurred()); 
 		query.setParameter("amount", expense.getAmount()); 
 
-		List<Expense> expenses = query.list();
+		List<Transaction> expenses = query.list();
 
 		/* commit */ 
 		session.getTransaction().commit();
@@ -397,7 +396,7 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 		session.beginTransaction();
 
 		final String sql = "SELECT DATE_FORMAT(dateIncurred,'%Y-%m') as date, ROUND(SUM(amount),2) "
-				+ "FROM Expense "
+				+ "FROM Transaction "
 				+ "WHERE amount< 0 "
 				+ "GROUP BY Year(dateIncurred), Month(dateIncurred) "
 				+ "ORDER BY dateIncurred DESC" ;
@@ -422,7 +421,7 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 
 		final String sql = "SELECT DATE_FORMAT(dateIncurred,'%Y-%m') as date, "
 				+ "category as cat, Count(*) as count, ROUND(SUM(amount),2) as sum "
-				+ "FROM Expense "
+				+ "FROM Transaction "
 				+ "WHERE amount < 0 and dateIncurred "
 				+ "GROUP BY Year(dateIncurred) , Month(dateIncurred), category "
 				+ "ORDER BY dateIncurred DESC";
@@ -460,7 +459,7 @@ ExpenseReadWriter, CardReadWriter, CurrencyReadWriter, StatsReader, CategoriesRe
 
 		final String sql = "SELECT DATE_FORMAT(dateIncurred,'%Y-%m') as date, "
 				+ "category as cat, Count(*) as count, ROUND(SUM(amount),2) as sum "
-				+ "FROM Expense "
+				+ "FROM Transaction "
 				+ "WHERE amount < 0 and (dateIncurred between ? and ?)"
 				+ "GROUP BY Year(dateIncurred) , Month(dateIncurred), category "
 				+ "ORDER BY dateIncurred DESC";

@@ -21,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Account;
 import models.Category;
-import models.Expense;
+import models.Transaction;
 import models.User;
 
 import org.apache.log4j.Logger;
@@ -114,7 +114,7 @@ public class NewExpenseViewController implements Initializable {
 		// TODO: make sure the entered value is a number
 		final Double amount = Double.parseDouble(amountTextField.getText());
 
-		Expense expense = new Expense();
+		Transaction expense = new Transaction();
 		expense.setAccount(account);
 		// FIXME
 		//		expense.setCategory(category);
@@ -136,7 +136,7 @@ public class NewExpenseViewController implements Initializable {
 				stage.setScene(scene);
 				controller.setStage(stage);
 				controller.setWriter(expenseWriter);
-				List<Expense> duplicates = new ArrayList<>(); 
+				List<Transaction> duplicates = new ArrayList<>(); 
 				duplicates.add(expense); 
 				controller.setExpenses(duplicates);
 				stage.showAndWait();
@@ -146,7 +146,7 @@ public class NewExpenseViewController implements Initializable {
 				io.printStackTrace();
 			}
 		} else { 
-			expenseWriter.createExpense(expense);
+			expenseWriter.createTransaction(expense);
 		}
 		rightPaneSetter.hideRightPane();
 	}

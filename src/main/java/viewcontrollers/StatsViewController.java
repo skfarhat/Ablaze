@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -20,6 +21,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import models.Category;
 import models.User;
 
@@ -98,15 +102,17 @@ public class StatsViewController implements Initializable {
 				catName = "Other"; 
 			else 
 				catName = category.getName();
-			
+
 			PieChart.Data d =  new PieChart.Data(catName, 100*(amount/total));
 
 			pieChartData.add(d); 
 		}
-		categoryPieChart.setData(pieChartData); 
+
+		categoryPieChart.setData(pieChartData);
+	
 	}
 	private void refreshBarChart() {
-		
+
 		/* clear data */ 
 		expensesBarChart.getData().clear();
 

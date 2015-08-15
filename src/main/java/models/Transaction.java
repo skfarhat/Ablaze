@@ -21,8 +21,8 @@ import util.LocalDateConverter;
  *
  */
 @Entity
-@Table (name="Expense")
-public class Expense {
+@Table (name="Transaction")
+public class Transaction {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,9 +44,6 @@ public class Expense {
 	@JoinColumn(name = "category", nullable = true)
 	private Category category; 
 	
-//	@Column(name = "category")
-//	private String category;
-
 	@Column(name = "type")
 	private String type;
 	

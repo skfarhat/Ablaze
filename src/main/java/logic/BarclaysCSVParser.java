@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import javafx.util.converter.LocalDateStringConverter;
 import models.Account;
 import models.Category;
-import models.Expense;
+import models.Transaction;
 
 import org.apache.log4j.Logger;
 
@@ -54,7 +54,7 @@ public class BarclaysCSVParser {
 	 * @return null if an exception occurs while reading 
 	 * @throws IOException 
 	 */
-	public static List<Expense> parse(AccountReader acctReader, String filename) throws IOException {
+	public static List<Transaction> parse(AccountReader acctReader, String filename) throws IOException {
 
 		/* some file reading stuff */ 
 		FileInputStream stream = new FileInputStream(new File(filename));
@@ -65,7 +65,7 @@ public class BarclaysCSVParser {
 
 
 		/* create list of expenses, 20 is an arbitrary value */ 
-		List<Expense> expenses = new ArrayList<Expense>(20); 
+		List<Transaction> expenses = new ArrayList<Transaction>(20); 
 
 		/*
 		 * to avoid fetching the corresponding account from the database for every expense 
@@ -124,7 +124,7 @@ public class BarclaysCSVParser {
 			}
 
 			/* Create Expense */ 
-			Expense expense = new Expense();
+			Transaction expense = new Transaction();
 			expense.setAccount(cachedAccount);
 			expense.setAmount(amount);
 			expense.setDescription(memo);

@@ -35,7 +35,7 @@ import javafx.util.Callback;
 import logic.BarclaysCSVParser;
 import models.Account;
 import models.Category;
-import models.Expense;
+import models.Transaction;
 import models.User;
 
 import org.apache.log4j.Logger;
@@ -58,18 +58,18 @@ public class ExpenseViewController implements Initializable {
 	private final static Logger logger = Logger.getLogger(ExpenseViewController.class);
 
 	/* Table Stuff */ 
-	@FXML private TreeTableView<Expense>				expensesTreeView;
-	@FXML private TreeTableColumn<Expense, String> 		dateColumn;
-	@FXML private TreeTableColumn<Expense, String> 		descriptionColumn;
-	@FXML private TreeTableColumn<Expense, String> 		amountColumn;
-	@FXML private TreeTableColumn<Expense, String> 		categoryColumn;
-	@FXML private TreeTableColumn<Expense, String> 		subCategoryColumn;
-	@FXML private TreeTableColumn<Expense, String> 		accountColumn;
+	@FXML private TreeTableView<Transaction>				expensesTreeView;
+	@FXML private TreeTableColumn<Transaction, String> 		dateColumn;
+	@FXML private TreeTableColumn<Transaction, String> 		descriptionColumn;
+	@FXML private TreeTableColumn<Transaction, String> 		amountColumn;
+	@FXML private TreeTableColumn<Transaction, String> 		categoryColumn;
+	@FXML private TreeTableColumn<Transaction, String> 		subCategoryColumn;
+	@FXML private TreeTableColumn<Transaction, String> 		accountColumn;
 
 	@FXML private MonthPickerController monthPickerController;
 
 	/* Data Source */ 
-	private ObservableList<Expense> expensesList; 
+	private ObservableList<Transaction> expensesList; 
 
 	/* the below should be set by the parent controller */ 
 	private ExpenseReadWriter expenseReadWriter; 
@@ -95,16 +95,16 @@ public class ExpenseViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		expensesList = FXCollections.observableArrayList(); 
-		expensesTreeView.setRoot(new TreeItem<Expense>());
+		expensesTreeView.setRoot(new TreeItem<Transaction>());
 
 		/*
 		 * we dont' want dates to show for the expenses themselves but only for their parent node, 
 		 * which corresponds to an Expense object with only the dateIncured attribute set.   
 		 */
 		dateColumn.setCellValueFactory(
-				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
+				new Callback<CellDataFeatures<Transaction, String>, ObservableValue<String>>() {
 					@Override
-					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
+					public ObservableValue<String> call(CellDataFeatures<Transaction, String> p) {
 
 						/* check if this is a real expense object or just one that contains the date 
 						 * */ 
@@ -116,9 +116,9 @@ public class ExpenseViewController implements Initializable {
 					}
 				});
 		descriptionColumn.setCellValueFactory(
-				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
+				new Callback<CellDataFeatures<Transaction, String>, ObservableValue<String>>() {
 					@Override
-					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
+					public ObservableValue<String> call(CellDataFeatures<Transaction, String> p) {
 						String description = p.getValue().getValue().getDescription(); 
 						if (description != null)
 							return new SimpleStringProperty(description);
@@ -128,10 +128,10 @@ public class ExpenseViewController implements Initializable {
 				});
 
 		amountColumn.setCellValueFactory(
-				new Callback<CellDataFeatures<Expense, String>, ObservableValue<String>>() {
+				new Callback<CellDataFeatures<Transaction, String>, ObservableValue<String>>() {
 					@Override
-					public ObservableValue<String> call(CellDataFeatures<Expense, String> p) {
-						Expense e = p.getValue().getValue(); 
+					public ObservableValue<String> call(CellDataFeatures<Transaction, String> p) {
+						Transaction e = p.getValue().getValue(); 
 						Double amount = e.getAmount(); 
 						
 						if (amount != null) { 
@@ -145,10 +145,10 @@ public class ExpenseViewController implements Initializable {
 				});
 
 		accountColumn.setCellValueFactory(
-				new Callback<CellDataFeatures<Expense,String>, ObservableValue<String>>() {
+				new Callback<CellDataFeatures<Transaction,String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(
-							CellDataFeatures<Expense, String> param) {
+							CellDataFeatures<Transaction, String> param) {
 						Account acct = param.getValue().getValue().getAccount(); 
 						if (acct != null)
 							return new ReadOnlyStringWrapper(acct.getName());
@@ -158,10 +158,10 @@ public class ExpenseViewController implements Initializable {
 				});
 		
 		categoryColumn.setCellValueFactory(
-				new Callback<CellDataFeatures<Expense,String>, ObservableValue<String>>() {
+				new Callback<CellDataFeatures<Transaction,String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(
-							CellDataFeatures<Expense, String> param) {
+							CellDataFeatures<Transaction, String> param) {
 						Category categ = param.getValue().getValue().getCategory();  
 						if (categ != null)
 							return new ReadOnlyStringWrapper(categ.getName());
@@ -184,11 +184,11 @@ public class ExpenseViewController implements Initializable {
 		expensesTreeView.getRoot().getChildren().clear();
 
 		logger.trace("filterArray"); 
-		HashMap<LocalDate, ArrayList<Expense>> map = new HashMap<>(100); 
+		HashMap<LocalDate, ArrayList<Transaction>> map = new HashMap<>(100); 
 
-		for (Expense e : expensesList) {
+		for (Transaction e : expensesList) {
 
-			ArrayList<Expense> array ;//= new ArrayList<>(); 
+			ArrayList<Transaction> array ;//= new ArrayList<>(); 
 			if (!map.containsKey(e.getDateIncurred())) { 
 				array = new ArrayList<>(); 
 				map.put(e.getDateIncurred(), array); 
@@ -198,15 +198,15 @@ public class ExpenseViewController implements Initializable {
 			array.add(e); 
 		}
 
-		for (Entry<LocalDate, ArrayList<Expense>> e: map.entrySet()) {
-			Expense temp = new Expense(); 
+		for (Entry<LocalDate, ArrayList<Transaction>> e: map.entrySet()) {
+			Transaction temp = new Transaction(); 
 			temp.setDateIncurred(e.getKey());
 
-			TreeItem<Expense> item = new TreeItem<Expense>(temp);
+			TreeItem<Transaction> item = new TreeItem<Transaction>(temp);
 			item.setExpanded(true);
 			for (int i = 0; i < e.getValue().size(); i++) { 
-				Expense expense = e.getValue().get(i); 
-				item.getChildren().add(new TreeItem<Expense>(expense)); 
+				Transaction expense = e.getValue().get(i); 
+				item.getChildren().add(new TreeItem<Transaction>(expense)); 
 			}
 
 			expensesTreeView.getRoot().getChildren().add(item); 
@@ -247,15 +247,15 @@ public class ExpenseViewController implements Initializable {
 		try {
 			
 			/* will hold expenses that are non-duplicates */
-			List<Expense> expenses = new ArrayList<>(10); 
+			List<Transaction> expenses = new ArrayList<>(10); 
 
 			/* save in database */ 
-			List<Expense> suspectDuplicates = new ArrayList<>(); 
+			List<Transaction> suspectDuplicates = new ArrayList<>(); 
 			
 			/* divide expenses between suspect duplicates and non-suspect */ 
-			List<Expense> temp = BarclaysCSVParser.parse(actReader, file.getPath());
+			List<Transaction> temp = BarclaysCSVParser.parse(actReader, file.getPath());
 			for (int i = 0; i < temp.size(); i++) { 
-				Expense e = temp.get(i); 
+				Transaction e = temp.get(i); 
 				
 				/* if is suspect duplicate */ 
 				if (expenseReadWriter.expenseIsSuspectDuplicate(e)) { 
@@ -288,7 +288,7 @@ public class ExpenseViewController implements Initializable {
 			}
 
 			/* create all expenses */ 
-			expenseReadWriter.createExpenses(expenses);
+			expenseReadWriter.createTransactions(expenses);
 
 			/* refresh table */  
 			refresh(); 
